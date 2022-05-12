@@ -1,0 +1,2274 @@
+
+<header class="top_bar sticky-top">
+
+  <div class="container-fluid header-first-row">
+    <div class="container px-0">
+      <div class="row">
+        <div class="col-xl-1 col-lg-1 col-md-1 col-12 logo px-0">
+          <a href="index.html">
+            <img class="img-fluid mb-3 rounded mx-auto" src="assets/img/logo.png" alt="لگوی سایت">
+          </a>
+        </div>
+        <div class="col-xl-7 col-lg-7 col-md-6 col-12 center-col">
+          <ul class="list-group list-group-horizontal justify-content-start">
+            <li class=""><a href="contactus.html">تماس با ما</a></li>
+            <li class="v-line">|</li>
+            <li class=""><a href="aboutus.html">درباره ما</a></li>
+            <li class="v-line">|</li>
+            <li class=""><a href="#">نحوه کار با سایت</a></li>
+            <li class="v-line">|</li>
+            <li class=""><a href="brands.html">درباره برند ها</a></li>
+          </ul>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-5 col-12 text-left px-xl-0 px-2 hidden-xs my-xl-auto my-md-auto justify-content-left mx-md-auto col-login">
+
+          <div class="pop-over-cart d-none">
+            <h6 class="text-center">سبد خرید</h6>
+            <hr>
+            <div class="cart-items">
+              <div class="pop-over-cart-row">
+                <span class="brand">1</span>
+                <span>شارژر</span>
+                <img src="assets/img/AndroidPIT-samsung-galaxy-s10-plus.jpg" alt="" class="pop-over-cart-img">
+              </div>
+              <hr>
+              <div class="pop-over-cart-row">
+                <span class="brand">2</span>
+                <span>کاور عروسکی ابی گوشی سامسونگ a30s</span>
+                <img src="assets/img/AndroidPIT-samsung-galaxy-s10-plus.jpg" alt="" class="pop-over-cart-img">
+              </div>
+            </div>
+            <div class="d-inline-block mt-3 mx-auto">
+              <a href="showBasket.html" class="btn btn-red3">مشاهده سبد</a>
+              <a href="order.html" class="btn btn-green">ثبت سفارش</a>
+            </div>
+          </div>
+
+          <ul class="list-group list-group-horizontal justify-content-end">
+            <li class="">
+              <button class="btn btn-green">
+                <a href="registerUser.html">ثبت نام کاربران</a>
+              </button>
+            </li>
+            <li class="v-line">|</li>
+            <li class="">
+              <a id="login-wholesalers" data-toggle="modal" data-target="#login_modal">
+                <!--<i class="far fa-user"></i>-->
+                <img class="user-icon" src="assets/img/user-black.png" alt="">
+                ورود کاربران
+              </a>
+            </li>
+            <li class="">
+              <a class="cart-count-btn">
+                <div class="cart-count"><span>2</span></div>
+                <i class="fas fa-shopping-cart shopping-cart-icon"></i>
+              </a>
+            </li>
+            </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container nav-container">
+    <div class="navigation">
+      <div class="header-container type21">
+        <div class="header container">
+          <div class="menu-icon">
+            <a href="javascript:void(0)" title="دسته بندی">
+              <i class="fa fa-bars"></i><span>دسته بندی</span>
+            </a>
+          </div>
+        </div>
+        <div class="header-wrapper" style="">
+          <div class="main-nav">
+            <div class="container px-xl-0 pr-2">
+              <div class="menu-wrapper">
+                <div class="menu-all-pages-container">
+                  <ul class="menu">
+                    <li class="menu-full-width " *ngFor="let cat of categories"
+                        (mouseover)="cat.show = true "
+                      (mouseout)="cat.show = false">
+                      <a>
+                      لوازم جانبی موبایل
+                      <i class="fa fa-angle-down"></i>
+                      </a>
+                      <div class="nav-sublist-dropdown "  [ngClass]="{'showMenu' : cat.show === true}">
+                        <div class="container">
+                          <div class="mega-columns row">
+                            <div class="block1 col-sm-12">
+                              <div class="row">
+                                <ul>
+                                  <li *ngFor="let scat of cat.Children" class="menu-item menu-item-has-children menu-parent-item col-sw-6 "
+                                      style="list-style: none;">
+                                    <a class="level1" data-id="" href="">
+                                      <span>آیفون</span>
+                                    </a>
+                                    <div class="nav-sublist level1">
+                                      <ul>
+                                        <li class="menu-item "
+                                            style="list-style: none;">
+                                          <a class="level2" data-id=""
+                                             href="products.html">
+                                            <span>تاچ ال سی دی</span>
+                                          </a>
+                                        </li>
+                                        <li class="menu-item "
+                                            style="list-style: none;">
+                                          <a class="level2" data-id=""
+                                             href="products.html">
+                                            <span>سنسور اثر انگشت</span>
+                                          </a>
+                                        </li>
+                                        <li class="menu-item "
+                                            style="list-style: none;">
+                                          <a class="level2" data-id=""
+                                             href="products.html">
+                                            <span> دوربین</span>
+                                          </a>
+                                        </li>
+                                        <li class="menu-item "
+                                            style="list-style: none;">
+                                          <a class="level2" data-id=""
+                                             href="products.html">
+                                            <span>برد فلت</span>
+                                          </a>
+                                        </li>
+                                        <li class="menu-item "
+                                            style="list-style: none;">
+                                          <a class="level2" data-id=""
+                                             href="products.html">
+                                            <span> قاب</span>
+                                          </a>
+                                        </li>
+                                        <li class="menu-item "
+                                            style="list-style: none;">
+                                          <a class="level2" data-id=""
+                                             href="products.html">
+                                            <span>دکمه ها</span>
+                                          </a>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </li>
+                                   
+                                   
+                                   
+                                   
+                                   
+                                   
+                                   
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                     
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mobile-nav side-block container">
+        <span class="close-sidebar-menu"><i class="icon-cancel fa fa-times"></i></span>
+        <div class="menu-all-pages-container">
+          <ul class="menu sw-mobile-menu">
+            <li class="menu-item menu-item-has-children menu-parent-item act">
+              <span class="open-child">
+                (open)
+                <i class="fa fa-angle-down"></i>
+              </span>
+              <a href="">لوازم جانبی موبایل</a>
+              <ul style="display: none;">
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>آیفون</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>سامسونگ</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>هوآوی</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>ال جی</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>لنوا</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>سونی</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>اچ تی سی</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>متفرقه</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item menu-item-has-children menu-parent-item">
+              <span class="open-child">
+                (open)
+                <i class="fa fa-angle-down"></i>
+              </span>
+              <a href=""> قطعات الکترونیکی موبایل</a>
+              <ul style="display: none;">
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>آیفون</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>سامسونگ</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>هوآوی</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>ال جی</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>لنوا</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>سونی</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>اچ تی سی</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>متفرقه</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item menu-item-has-children menu-parent-item">
+              <span class="open-child">
+                (open)
+                <i class="fa fa-angle-down"></i>
+              </span>
+              <a href="">اکسسوری موبایل</a>
+              <ul style="display: none;">
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>آیفون</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>سامسونگ</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>هوآوی</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>ال جی</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>لنوا</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>سونی</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>اچ تی سی</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>متفرقه</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item menu-item-has-children menu-parent-item">
+              <span class="open-child">
+                (open)
+                <i class="fa fa-angle-down"></i>
+              </span>
+              <a href="">لوازم جانبی کنسول های بازی</a>
+              <ul style="display: none;">
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>آیفون</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>سامسونگ</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>هوآوی</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>ال جی</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>لنوا</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>سونی</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>اچ تی سی</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>متفرقه</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item menu-item-has-children menu-parent-item">
+              <span class="open-child">
+                (open)
+                <i class="fa fa-angle-down"></i>
+              </span>
+              <a href="">عروسک های فانتزی</a>
+              <ul style="display: none;">
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>آیفون</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>سامسونگ</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>هوآوی</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>ال جی</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>لنوا</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>سونی</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>اچ تی سی</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>متفرقه</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li class="menu-item menu-item-has-children menu-parent-item">
+              <span class="open-child">
+                (open)
+                <i class="fa fa-angle-down"></i>
+              </span>
+              <a href="">اکسسوری موبایل</a>
+              <ul style="display: none;">
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>آیفون</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>سامسونگ</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>هوآوی</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>ال جی</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>لنوا</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>سونی</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>اچ تی سی</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="menu-item menu-item-has-children menu-parent-item">
+                  <span class="open-child">
+                    (open)
+                    <i class="fa fa-angle-down"></i>
+                  </span>
+                  <a class="level1" data-id="" href="">
+                    <span>متفرقه</span>
+                  </a>
+                  <ul style="display: none;">
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>تاچ ال سی دی</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>سنسور اثر انگشت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دوربین</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>برد فلت</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>قاب</span>
+                      </a>
+                    </li>
+                    <li class="menu-item ">
+                      <a class="level2" data-id="" href="products.html">
+                        <span>دکمه ها</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <div class="custom-block"></div>
+      </div>
+      <div class="mobile-nav-overlay close-mobile-nav"></div>
+    </div>
+  </div>
+</header>
+
+
+
+
+
+<footer>
+  <div class="first-row">
+    <div class="container px-0">
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-6 float-right px-0">
+          <ul class="list-group list-group-horizontal justify-content-right px-xl-0 px-md-0 px-2">
+            <li class=""><a href="#" class="report-violation">گزارش تخلف</a></li>
+            <li class="v-line">|</li>
+            <li class=""><a href="#">ارسال پیشنهادات</a></li>
+          </ul>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-6 col-6 float-left px-0">
+          <p class="ml-5 text-left my-4 pl-xl-0 pl-2">شماره پشتیبانی 33554422-021</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="second-row">
+    <div class="container px-xl-0 px-0">
+      <div class="row">
+        <div class="col-xl-5 col-lg-5 col-md-5 col-12 px-xl-2 px-md-2 px-0 text-xl-right text-md-right text-center">
+          <p class=" my-4">اپلیکیشن ما را نصب کنید تا آسان تر تجارت کنید.</p>
+          <a href=""><img class="img-fluid mb-3 rounded" src="img/bazar.jpg" alt=""></a>
+        </div>
+        <div class="col-xl-5 col-lg-5 col-md-5 col-12 px-xl-0">
+          <p class=" my-4">با ما در شبکه های اجتماعی همراه باشید</p>
+          <div class="social">
+            <ul class="list-group list-group-horizontal  justify-content-center float-xl-right float-md-right float-none pr-0">
+              <li class="social-item">
+                <a href="#"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+              </li>
+              <li class="social-item">
+                <a href="#"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+              </li>
+              <li class="social-item">
+                <a href="#"><i class="fab fa-telegram" aria-hidden="true"></i></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-xl-2 col-lg-2 col-md-2 col-12 px-xl-0 px-md-2 my-xl-4 my-4 justify-content-center">
+          <img class="img-fluid mb-3 my-auto mx-xl-0 float-xl-left float-none mx-auto d-block bg-white enemad"
+               src="img/enamad.png" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="third-row">
+    <div class="container px-xl-0 pr-md-0">
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-12 float-right px-2">
+          <p class="text-right my-4">کلیه ی حقوق این سایت متعلق به نام سایت می باشد.</p>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-6 col-12 float-left px-xl-0 px-md-0 copy-right">
+          <p class="text-left my-4">Copyright © 2018 - www.site.com</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
