@@ -12,17 +12,28 @@ export class AppComponent {
     console.log(event.target.classList)
   }
 
-  categories :any[]= [
+  toggleMobileCategory() {
+    var body = document.getElementsByTagName('body')[0];
+    if (body.classList.contains('mobile-nav-shown')) {
+      body.classList.remove('mobile-nav-shown')
+    }
+    else {
+      body.classList.add('mobile-nav-shown')
+    }
+  }
+
+
+
+  categories: any[] = [
     {
       Title: 'لوازم جانبی موبایل', Id: 1, Children: [
         {
           Title: 'آیفون', Id: 30, Children: [
-            { Title: 'تاچ', Id: 50}
+            { Title: 'تاچ', Id: 50 }
           ]
         }
       ]
     }
 
   ]
-
 }

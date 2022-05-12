@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { AboutUsComponent } from './about-us/about-us.component';
@@ -18,6 +19,7 @@ import { IndexComponent } from './index/index.component';
 var routes: Routes = [
   { path: '', redirectTo: 'index', pathMatch:'full' },
   { path: 'index', component: IndexComponent },
+  { path: 'register', component: RegisterComponent },
 
 ]
 
@@ -38,6 +40,8 @@ var routes: Routes = [
   ],
   imports: [
     BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
     RouterModule.forRoot(routes)
   ],
   providers: [],
