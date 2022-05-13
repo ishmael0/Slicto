@@ -1,1 +1,52 @@
-<p>brands works!</p>
+<section id="brand">
+
+  <div class="container px-xl-0 px-md-0 px-2">
+
+    <div class="row my-3">
+      <div class="col-xl-3 col-lg-3 col-md-4 col-12 pr-xl-2 pr-md-2 pr-0 right-col-brand">
+        <div class="card">
+          <div class="card-body brands">
+            <p class="brand-t">درباره برند ها</p>
+
+            <a (click)="activeBrand = item" *ngFor="let item of cs.brands"><p>{{item.Title}}</p></a>
+            <hr>
+            <a href=""><p>سامسونگ</p></a>
+            <hr>
+            <a href=""><p>ال جی</p></a>
+            <hr>
+            <a href=""><p>سونی اریکسون</p></a>
+            <hr>
+            <a href=""><p>شیامو</p></a>
+            <hr>
+            <a href=""><p>ایسوز</p></a>
+            <hr>
+            <a href=""><p>هوآوی</p></a>
+            <hr>
+            <a href=""><p>ماکروتل</p></a>
+            <hr>
+            <a href=""><p>ای دیتا</p></a>
+            <hr>
+            <a href=""><p>دل</p></a>
+            <hr>
+            <a href=""><p>جی ال ایکس</p></a>
+            <hr>
+            <a href=""><p>ورتو</p></a>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xl-9 col-lg-9 col-md-8 col-12 pl-xl-0 pl-md-2 left-col-brand">
+        <div class="card">
+          <div class="card-body brands" *ngIf="activeBrand">
+            <h4 class="brand-t pr-4">{{activeBrand.Title}}</h4>
+            {{activeBrand.Description}}
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+</section>

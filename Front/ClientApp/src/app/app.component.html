@@ -11,13 +11,13 @@
         </div>
         <div class="col-xl-7 col-lg-7 col-md-6 col-12 center-col">
           <ul class="list-group list-group-horizontal justify-content-start">
-            <li class=""><a href="contactus.html">تماس با ما</a></li>
+            <li class=""><a [routerLink]="['/contactus']">تماس با ما</a></li>
             <li class="v-line">|</li>
-            <li class=""><a href="aboutus.html">درباره ما</a></li>
+            <li class=""><a [routerLink]="['/aboutus']">درباره ما</a></li>
             <li class="v-line">|</li>
-            <li class=""><a href="#">نحوه کار با سایت</a></li>
+            <li class=""><a [routerLink]="['/rules']">نحوه کار با سایت</a></li>
             <li class="v-line">|</li>
-            <li class=""><a href="brands.html">درباره برند ها</a></li>
+            <li class=""><a [routerLink]="['/brands']">درباره برند ها</a></li>
           </ul>
         </div>
         <div class="col-xl-4 col-lg-4 col-md-5 col-12 text-left px-xl-0 px-2 hidden-xs my-xl-auto my-md-auto justify-content-left mx-md-auto col-login">
@@ -46,8 +46,8 @@
 
           <ul class="list-group list-group-horizontal justify-content-end">
             <li class="">
-              <button class="btn btn-green"  [routerLink]="['/register']">
-                <a >ثبت نام کاربران</a>
+              <button class="btn btn-green" [routerLink]="['/register']">
+                <a>ثبت نام کاربران</a>
               </button>
             </li>
             <li class="v-line">|</li>
@@ -64,7 +64,7 @@
                 <i class="fas fa-shopping-cart shopping-cart-icon"></i>
               </a>
             </li>
-            </ul>
+          </ul>
         </div>
       </div>
     </div>
@@ -86,14 +86,14 @@
               <div class="menu-wrapper">
                 <div class="menu-all-pages-container">
                   <ul class="menu">
-                    <li class="menu-full-width " *ngFor="let cat of categories"
-                        (mouseover)="cat.show = true "
-                      (mouseout)="cat.show = false">
+                    <li class="menu-full-width " *ngFor="let cat of cs.categories"
+                        (mouseover)="cat.Show = true "
+                        (mouseout)="cat.Show = false">
                       <a>
-                      {{cat.Title}}
-                      <i class="fa fa-angle-down"></i>
+                        {{cat.Title}}
+                        <i class="fa fa-angle-down"></i>
                       </a>
-                      <div class="nav-sublist-dropdown "  [ngClass]="{'showMenu' : cat.show === true}">
+                      <div class="nav-sublist-dropdown " [ngClass]="{'showMenu' : cat.Show === true}">
                         <div class="container">
                           <div class="mega-columns row">
                             <div class="block1 col-sm-12">
@@ -101,13 +101,13 @@
                                 <ul>
                                   <li *ngFor="let scat of cat.Children" class="menu-item menu-item-has-children menu-parent-item col-sw-6 "
                                       style="list-style: none;">
-                                    <a class="level1" data-id="" href="">
+                                    <a class="level1"   (click)="cat.Show = false" [routerLink]="['/products/'+scat.Id]">
                                       <span>{{scat.Title}}</span>
                                     </a>
                                     <div class="nav-sublist level1">
                                       <ul>
                                         <li class="menu-item " style="list-style: none;" *ngFor="let sscat of scat.Children">
-                                          <a class="level2" data-id="" href="products.html">
+                                          <a class="level2" data-id="" (click)="scat.Show = false;cat.Show = false" [routerLink]="['/products/'+sscat.Id]">
                                             <span>{{sscat.Title}}</span>
                                           </a>
                                         </li>
@@ -132,49 +132,33 @@
         <span class="close-sidebar-menu"><i class="icon-cancel fa fa-times"></i></span>
         <div class="menu-all-pages-container">
           <ul class="menu sw-mobile-menu">
-            <li class="menu-item menu-item-has-children menu-parent-item act" *ngFor="let cat of categories">
-              <span class="open-child" (click)=" cat.show =!cat.show ">
+            <li class="menu-item menu-item-has-children menu-parent-item act" *ngFor="let cat of cs.categories">
+              <span class="open-child" (click)=" cat.Show =!cat.Show ">
                 (open)
                 <i class="fa fa-angle-down"></i>
               </span>
-              <a  >{{cat.Title}}
+              <a>
+                {{cat.Title}}
               </a>
-              <ul [ngStyle]="{'display' : cat.show ? 'block':'none'}">
+              <ul [ngStyle]="{'display' : cat.Show ? 'block':'none'}">
                 <li class="menu-item menu-item-has-children menu-parent-item" *ngFor="let scat of cat.Children">
-                  <span class="open-child" (click)="scat.show = !scat.show">
+                  <span class="open-child" (click)="scat.Show = !scat.Show">
                     (open)
                     <i class="fa fa-angle-down"></i>
                   </span>
-                  <a class="level1" data-id="" href="" >
+                  <a class="level1"  (click)="cat.Show = false" [routerLink]="['/products/'+scat.Id]">
                     <span>{{scat.Title}}</span>
                   </a>
-                  <ul  [ngStyle]="{'display' : scat.show ? 'block':'none'}" > 
+                  <ul [ngStyle]="{'display' : scat.Show ? 'block':'none'}">
                     <li class="menu-item " *ngFor="let sscat of scat.Children">
-                      <a class="level2" data-id="" href="products.html">
+                      <a class="level2" data-id="" (click)="scat.Show = false;cat.Show = false" [routerLink]="['/products/'+sscat.Id]">
                         <span>{{sscat.Title}}</span>
                       </a>
                     </li>
-                     
-                     
-                     
-                     
-                     
                   </ul>
                 </li>
-                 
-                 
-                 
-                 
-                 
-                 
-                 
               </ul>
             </li>
-             
-             
-             
-             
-             
           </ul>
         </div>
         <div class="custom-block"></div>
@@ -204,7 +188,8 @@
 
 <router-outlet></router-outlet>
 
-
+<br />
+<br />
 
 
 

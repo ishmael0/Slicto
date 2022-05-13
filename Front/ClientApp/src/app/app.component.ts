@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
+import { BaseComponent } from './base-component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent extends BaseComponent {
   title = 'ClientApp';
 
   changeStyle(event: any, w: boolean) {
@@ -24,16 +25,5 @@ export class AppComponent {
 
 
 
-  categories: any[] = [
-    {
-      Title: 'لوازم جانبی موبایل', Id: 1, Children: [
-        {
-          Title: 'آیفون', Id: 30, Children: [
-            { Title: 'تاچ', Id: 50 }
-          ]
-        }
-      ]
-    }
 
-  ]
 }

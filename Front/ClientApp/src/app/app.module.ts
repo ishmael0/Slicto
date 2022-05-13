@@ -13,14 +13,20 @@ import { RegisterComponent } from './register/register.component';
 import { ProductsComponent } from './products/products.component';
 import { BasketComponent } from './basket/basket.component';
 import { IndexComponent } from './index/index.component';
-
-
+import { ContactUsComponent } from './contact-us/contact-us.component';
+import { RulesComponent } from './rules/rules.component';
+import { ProductComponent } from './product/product.component';
 
 var routes: Routes = [
   { path: '', redirectTo: 'index', pathMatch:'full' },
   { path: 'index', component: IndexComponent },
   { path: 'register', component: RegisterComponent },
-
+  { path: 'rules', component: RulesComponent },
+  { path: 'aboutus', component: AboutUsComponent },
+  { path: 'contactus', component: ContactUsComponent },
+  { path: 'brands', component: BrandsComponent },
+  { path: 'product', component: ProductComponent },
+  { path: 'products/:id', component: ProductsComponent },
 ]
 
 
@@ -36,7 +42,10 @@ var routes: Routes = [
     RegisterComponent,
     ProductsComponent,
     BasketComponent,
-    IndexComponent
+    IndexComponent,
+    ContactUsComponent,
+    RulesComponent,
+    ProductComponent
   ],
   imports: [
     BrowserModule,

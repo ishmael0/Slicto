@@ -29,7 +29,7 @@ export class RegisterComponent implements OnInit {
     if (this.level == 1) {
       this.level = 2;
     }
-    if (this.level ==2) {
+    else if (this.level ==2) {
       this.level = 3;
     }
     console.log(this.form.value)
