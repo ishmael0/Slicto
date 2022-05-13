@@ -52,7 +52,7 @@
             </li>
             <li class="v-line">|</li>
             <li class="">
-              <a id="login-wholesalers" data-toggle="modal" data-target="#login_modal">
+              <a id="login-wholesalers"  (click)="loginModal = true">
                 <!--<i class="far fa-user"></i>-->
                 <img class="user-icon" src="assets/img/user-black.png" alt="">
                 ورود کاربران
@@ -101,7 +101,7 @@
                                 <ul>
                                   <li *ngFor="let scat of cat.Children" class="menu-item menu-item-has-children menu-parent-item col-sw-6 "
                                       style="list-style: none;">
-                                    <a class="level1"   (click)="cat.Show = false" [routerLink]="['/products/'+scat.Id]">
+                                    <a class="level1" (click)="cat.Show = false" [routerLink]="['/products/'+scat.Id]">
                                       <span>{{scat.Title}}</span>
                                     </a>
                                     <div class="nav-sublist level1">
@@ -146,7 +146,7 @@
                     (open)
                     <i class="fa fa-angle-down"></i>
                   </span>
-                  <a class="level1"  (click)="cat.Show = false" [routerLink]="['/products/'+scat.Id]">
+                  <a class="level1" (click)="cat.Show = false" [routerLink]="['/products/'+scat.Id]">
                     <span>{{scat.Title}}</span>
                   </a>
                   <ul [ngStyle]="{'display' : scat.Show ? 'block':'none'}">
@@ -258,3 +258,6 @@
     </div>
   </div>
 </footer>
+<div id="login_modal" class="modal fade " [class.show]="loginModal"  [style.display]="loginModal ? 'block' : 'none'" >
+  <app-log-in (close)="loginModal = false"></app-log-in>
+</div>

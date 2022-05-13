@@ -1,0 +1,38 @@
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <img src="assets/img/user-white.png" alt="">
+        <p class="modal-title">ورود</p>
+        <button type="button" class="close" (click)="close.emit(true)" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="card">
+          <div class="card-body">
+            <form  action="productManagement.html">
+              <div>
+                <input type="text" class="form-control" placeholder="نام کاربری">
+                <input type="text" class="form-control" placeholder="رمز ورود">
+              </div>
+
+              <a class="forget" href="">رمز عبور خود را فراموش کرده ام</a>
+              <br>
+
+              <input type="checkbox" class="css-checkbox" id="checkbox1" checked="checked" />
+              <label for="checkbox1" name="" class="css-label lite-green-check"></label>
+              <span>مرا به خاطر بسپار</span>
+
+
+              <button class="btn btn-green" type="submit">ورود</button>
+            </form>
+
+            <br>
+            <a class="goRegister text-center d-none" href="registerUser.html">
+              هنوز ثبت نام نکرده ام بریم به صفحه ثبت نام
+            </a>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>

@@ -31,7 +31,7 @@ a:focus {
 .ordering:hover,
 .ordering:focus,
 .ordering.active {
-    color: #fd7649;
+    color: #fd7649 !important;
 }
 
 #shop .ordering:hover,
@@ -584,4 +584,7 @@ img.hover-shadow {
 
 .pre_invoice_price {
     color: #ce3d0e;
+}
+.svg-inline--fa{
+    width:14px;
 }

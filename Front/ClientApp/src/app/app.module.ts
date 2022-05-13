@@ -16,6 +16,7 @@ import { IndexComponent } from './index/index.component';
 import { ContactUsComponent } from './contact-us/contact-us.component';
 import { RulesComponent } from './rules/rules.component';
 import { ProductComponent } from './product/product.component';
+import { LogInComponent } from './log-in/log-in.component';
 
 var routes: Routes = [
   { path: '', redirectTo: 'index', pathMatch:'full' },
@@ -25,7 +26,7 @@ var routes: Routes = [
   { path: 'aboutus', component: AboutUsComponent },
   { path: 'contactus', component: ContactUsComponent },
   { path: 'brands', component: BrandsComponent },
-  { path: 'product', component: ProductComponent },
+  { path: 'product/:id', component: ProductComponent },
   { path: 'products/:id', component: ProductsComponent },
 ]
 
@@ -45,7 +46,8 @@ var routes: Routes = [
     IndexComponent,
     ContactUsComponent,
     RulesComponent,
-    ProductComponent
+    ProductComponent,
+    LogInComponent
   ],
   imports: [
     BrowserModule,

@@ -26,4 +26,5 @@ export class AppComponent extends BaseComponent {
 
 
 
+  loginModal = false;
 }
