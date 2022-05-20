@@ -3,9 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackHost", "BackHost\BackHost.csproj", "{38F8CC23-4C6E-409A-9704-912B193946F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BackHost", "BackHost\BackHost.csproj", "{38F8CC23-4C6E-409A-9704-912B193946F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Front", "Front\Front.csproj", "{5383D16A-4197-434D-9573-CCF848789891}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Front", "Front\Front.csproj", "{5383D16A-4197-434D-9573-CCF848789891}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "1-Core", "..\Santel\Core\1-Core.csproj", "{8DD75C0E-A637-461D-A861-6EEAF7FE62DB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "2-ClientApp", "..\Santel\ClientApp\2-ClientApp.csproj", "{745E7E9B-3334-487A-88D1-83AE4CCE1964}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{959EE78C-D97D-4934-82FE-8618EC719285}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +30,14 @@ Global
 		{5383D16A-4197-434D-9573-CCF848789891}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5383D16A-4197-434D-9573-CCF848789891}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5383D16A-4197-434D-9573-CCF848789891}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DD75C0E-A637-461D-A861-6EEAF7FE62DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DD75C0E-A637-461D-A861-6EEAF7FE62DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DD75C0E-A637-461D-A861-6EEAF7FE62DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DD75C0E-A637-461D-A861-6EEAF7FE62DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{745E7E9B-3334-487A-88D1-83AE4CCE1964}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{745E7E9B-3334-487A-88D1-83AE4CCE1964}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{745E7E9B-3334-487A-88D1-83AE4CCE1964}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{745E7E9B-3334-487A-88D1-83AE4CCE1964}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

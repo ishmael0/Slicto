@@ -22,7 +22,7 @@
         </div>
         <div class="col-xl-4 col-lg-4 col-md-5 col-12 text-left px-xl-0 px-2 hidden-xs my-xl-auto my-md-auto justify-content-left mx-md-auto col-login">
 
-          <div class="pop-over-cart d-none">
+          <div class="pop-over-cart" [class.d-none]="!showBasket">
             <h6 class="text-center">سبد خرید</h6>
             <hr>
             <div class="cart-items">
@@ -58,10 +58,10 @@
                 ورود کاربران
               </a>
             </li>
-            <li class="">
+            <li class="" (click)="showBasket=!showBasket">
               <a class="cart-count-btn">
                 <div class="cart-count"><span>2</span></div>
-                <i class="fas fa-shopping-cart shopping-cart-icon"></i>
+                <i class="fas fa-shopping-cart shopping-cart-icon" style="display:block"></i>
               </a>
             </li>
           </ul>

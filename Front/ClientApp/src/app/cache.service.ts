@@ -11,6 +11,17 @@ export class Category {
   ParentId: number | null = null;
   Title!: string;
 }
+
+export class Product {
+  Id!: number;
+  CategoryId!: number ;
+  BrandId!: number ;
+  Title!: string;
+  Description!: string;
+  PriceWithDiscount!: number;
+  Price!: number;
+  Image!: string[];
+}
 export class Brand {
   Id!: number;
   Title!: string;
@@ -41,4 +52,17 @@ export class CacheService {
   ]
   categories: TreeCategory[] = [
   ]
+
+
+
+  testP: Product = {
+    Id: 1,
+    Title: 'کابل شارژر آیفون(اصل)',
+    Description: '                کابل شارژر آیفون در 4 رنگ آبی-سفید-مشکی-قرمز با امکان شارژ تبلت (با شدت‌جریان 2.0 آمپر و بالاتر)، امکان شارژ کردن سریع‌تر موبایل...',
+    PriceWithDiscount: 29000,
+    Price: 30000,
+    Image: ['assets/img/AndroidPIT-samsung-galaxy-s10-plus.jpg'],
+    BrandId: 1,
+    CategoryId: 50
+  }
 }

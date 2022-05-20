@@ -1,23 +1,21 @@
 <section>
 
-  <div class="container px-xl-0 px-md-0 px-2">
+  <div class="container px-xl-0 px-md-0 px-2" *ngIf="product">
 
     <!--submenu-->
     <div class="row my-3 py-2 mx-1 subMenu">
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <a href="index.html"><span class="px-1">نام سایت </span></a>
         <i class="fa fa-angle-left route"></i>
-
-        <a href="products.html"><span class="px-1">اکسسوری موبایل </span></a>
         <i class="fa fa-angle-left route"></i>
 
-        <a href="products.html"><span class="px-1">آیفون</span></a>
+        <ng-container *ngFor="let item of bread">
+          <i class="fa fa-angle-left route"></i>
+          <a [routerLink]="['/products/'+item.Id]"><span class="px-1"> {{item.Title}}  </span></a>
+        </ng-container>
         <i class="fa fa-angle-left route"></i>
-
-        <a href="products.html"><span class="px-1">کابل شارژر </span></a>
         <i class="fa fa-angle-left route"></i>
-
-        <a href="productDetails.html"><span class="px-1">کابل عروسکی آیفون مدل کارتونی صورتی</span></a>
+        <a href="productDetails.html"><span class="px-1">{{product.Title}}</span></a>
       </div>
 
 
@@ -95,7 +93,7 @@
 
 
           <div class="product-description-title">
-            <h6 class="title-product">قاب اپل X</h6>
+            <h6 class="title-product"> {{product.Title}}</h6>
           </div>
 
           <div class="pr-2">
@@ -121,7 +119,7 @@
               </div>
 
               <a href="https://slicto.com/Store/Product/2055#">
-                <span class="brand">اپل</span>
+                <span class="brand">{{brand?.Title}}</span>
               </a>
 
             </div>
@@ -193,7 +191,7 @@
             <div class="hr"></div>
 
             <!--product contactInfo-->
-            <div class="row pr-xl-3 pr-lg-3 py-2">
+            <!--<div class="row pr-xl-3 pr-lg-3 py-2">
 
               <div class="py-2 col-xl-4 col-lg-3 col-md-4 col-sm-4 col-12 pr-0">
                 <span class="product-titles">اطلاعات تماس فروشنده :&nbsp;&nbsp;</span>
@@ -204,14 +202,14 @@
                 <button type="button" class="btn btn-lg btn-contact px-2 d-inline">
                   <svg class="svg-inline--fa fa-phone fa-w-16" id="contact-icon" aria-hidden="true" focusable="false" data-prefix="fa"
                        data-icon="phone" role="assets/img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
-                  <path fill="currentColor" d="M493.4 24.6l-104-24c-11.3-2.6-22.9 3.3-27.5 13.9l-48 112c-4.2 9.8-1.4 21.3 6.9 28l60.6 49.6c-36 76.7-98.9 140.5-177.2 177.2l-49.6-60.6c-6.8-8.3-18.2-11.1-28-6.9l-112 48C3.9 366.5-2 378.1.6 389.4l24 104C27.1 504.2 36.7 512 48 512c256.1 0 464-207.5 464-464 0-11.2-7.7-20.9-18.6-23.4z"></path></svg><!-- <i class="fa fa-phone" id="contact-icon"></i> -->&nbsp;
+                  <path fill="currentColor" d="M493.4 24.6l-104-24c-11.3-2.6-22.9 3.3-27.5 13.9l-48 112c-4.2 9.8-1.4 21.3 6.9 28l60.6 49.6c-36 76.7-98.9 140.5-177.2 177.2l-49.6-60.6c-6.8-8.3-18.2-11.1-28-6.9l-112 48C3.9 366.5-2 378.1.6 389.4l24 104C27.1 504.2 36.7 512 48 512c256.1 0 464-207.5 464-464 0-11.2-7.7-20.9-18.6-23.4z"></path></svg>--><!-- <i class="fa fa-phone" id="contact-icon"></i> --><!--&nbsp;
                   برای نمایش کامل کلیک کنید
                 </button>
 
                 <span id="outprint" style="font-size: 17px;">××× ×××× ۰۹۱۴</span>
               </div>
 
-            </div>
+            </div>-->
 
 
 
@@ -385,8 +383,8 @@
           <div class="row">
             <div class="col-xl-7 col-lg-12 col-md-12 col-12 px-0">
               <h6 class="title-product">
-                <a href="productDetails.html">
-                  کابل شارژر آیفون(اصل)
+                <a [routerLink]="['/product/' + product.Id]">
+                  {{product.Title}}
                 </a>
               </h6>
             </div>
@@ -399,7 +397,10 @@
 
           <div class="hr"></div>
 
-          <span class="product-description">کابل شارژر آیفون در 4 رنگ آبی-سفید-مشکی-قرمز با امکان شارژ تبلت (با شدت‌جریان 2.0 آمپر و بالاتر)، امکان شارژ کردن سریع‌تر موبایل...</span>
+          <span class="product-description">
+            {{product.Description}}
+
+          </span>
           <br>
           <br>
 
@@ -411,7 +412,7 @@
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 text-left">
               <span class="price">
                 29,000
-                <span>تومان</span>
+                <span>{{product.PriceWithDiscount}}</span>
               </span>
             </div>
           </div>
@@ -428,7 +429,7 @@
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 text-left" style='color:red;text-decoration:line-through'>
               <span class="price">
                 30,000
-                <span>تومان</span>
+                <span>{{product.Price}}</span>
               </span>
             </div>
           </div>

@@ -27,4 +27,5 @@ export class AppComponent extends BaseComponent {
 
 
   loginModal = false;
+  showBasket = false;
 }
