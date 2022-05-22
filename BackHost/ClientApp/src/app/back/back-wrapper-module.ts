@@ -20,12 +20,12 @@ const routes: Routes = [
   {
     path: 'AccDB'.toLowerCase(), loadChildren: () => import('../../../../../../Santel/ClientApp/src/app/account-manager/account-manager.module').then(m => m.AccountManagerModule),
     data: {
-      key: 'AccDB'.toLowerCase(), label: 'مدیریت کاربران', isAcc: true
+      key: 'AccDB', label: 'مدیریت کاربران', isAcc: true
     }
   },
   {
     path: 'admin'.toLowerCase(), loadChildren: () => import('./back.module').then(m => m.BackModule),
-    data: { key: 'DB'.toLowerCase(), label: ' مدیریت وب سایت' }
+    data: { key: 'DB', label: ' مدیریت وب سایت' }
   },
   { path: 'webselector', component: WebSelectorComponent },
   { path: 'login', component: LoginComponent }
