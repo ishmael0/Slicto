@@ -1,11 +1,91 @@
-﻿using Core.DB;
+﻿using Core.Controllers;
+using Core.DB;
 using Core.Models;
+using Core.Services;
 using Core.StartUp;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations.Schema;
 
+namespace BackHost.DBs
+{
+    public class ProductController : BaseController<DB, Product>
+    {
+        public ProductController(DB dbContext, UserPermissionManager upm, IOptions<AppSettingPrivates> options) : base(dbContext, upm, options)
+        {
+        }
+        [AuthorizeAttributeWithPermmisionRefreshToken]
+        [HttpPost]
+        public override async Task<JR<JM<Product>>> Set([FromQuery] IDictionary<string, string> param, [FromBody] Product t)
+        {
+            if (t == null)
+                return JR<JM<Product>>.FailureBadRequest();
+            if (t.Id != 0 && HasAccessToId(upm, t.Id) != true)
+                return JR<JM<Product>>.FailureForbidden();
+            BeforeSet(t);
+            using var transaction = await _context.Database.BeginTransactionAsync();
+            try
+            {
+
+                if (t.Id == 0)
+                {
+                    var x = t.Types;
+                    t.Types = null;
+                    t.Create = DateTime.Now;
+                    ts.Add(t);
+                    await _context.SaveChangesAsync();
+                    x.ToList().ForEach(c =>
+                    {
+                        c.Create = DateTime.Now;
+                        c.ProductId = t.Id;
+                        _context.Add(c);
+                    });
+                    await _context.SaveChangesAsync();
+                }
+                else
+                {
+                    var x = t.Types;
+                    t.Types = null;
+                    var existsId = x.Select(c => c.Id).Where(c => c > 0).ToList();
+                    var alltypes = await _context.ProductTypes.Where(c => c.ProductId == t.Id && !existsId.Contains(c.Id)).ToListAsync();
+                    var toDel = alltypes.Where(c => !x.Select(d => d.Id).Contains(c.Id));
+                    toDel.ToList().ForEach(c => _context.Remove(c));
+                    x.ToList().ForEach(c =>
+                    {
+                        if (c.Id > 0)
+                            _context.Update(c);
+                        else
+                        {
+                            c.Create = DateTime.Now;
+                            c.ProductId = t.Id;
+                            _context.Add(c);
+                        }
+                    }
+                    );
+                    ts.Update(t);
+                    _context.Entry(t).Property(c => c.Create).IsModified = false;
+                    await _context.SaveChangesAsync();
+                }
+
+                await transaction.CommitAsync();
+            }
+            catch (Exception)
+            {
+                await transaction.RollbackAsync();
+                return JR<JM<Product>>.FailureBadRequest();
+            }
+            return await GetHandler(param, t);
+        }
+        [NonAction]
+        public override IQueryable<Product> BeforeGet(IQueryable<Product> q)
+        {
+             return base.BeforeGet(q).Include(c => c.Types).AsQueryable();
+        }
+    }
+}
 namespace BackHost.DBs
 {
     [SafeToGetAll]
@@ -28,6 +108,14 @@ namespace BackHost.DBs
     public class Color : BaseModelWithTitle
     {
         public string Value { set; get; }
+    }
+    [SafeToGetAll]
+    public class Size : BaseModelWithTitle
+    {
+    }
+    [SafeToGetAll]
+    public class Model : BaseModelWithTitle
+    {
     }
     public class Keyword : BaseModelWithTitle
     {
@@ -71,7 +159,7 @@ namespace BackHost.DBs
         public int Count { set; get; }
 
     }
-    public class ProductTypeForInvoice: ProductTypeForBasket
+    public class ProductTypeForInvoice : ProductTypeForBasket
     {
         public int Price { set; get; }
         public int Off { set; get; }
@@ -82,9 +170,20 @@ namespace BackHost.DBs
         [ForeignKey("ProductId")]
         public Product Product { set; get; }
         public string Title { set; get; }
-        [ForeignKey("ColorId")]
-        public Color Color { set; get; }
-        public long ColorId { set; get; }
+
+        //[ForeignKey("ColorId")]
+        //public Color Color { set; get; }
+        public long? ColorId { set; get; }
+
+        //[ForeignKey("SizeId")]
+        //public Size Size { set; get; }
+        public long? SizeId { set; get; }
+
+        //[ForeignKey("ModelId")]
+        //public Model Model { set; get; }
+        public long? ModelId { set; get; }
+
+
         public string? Decription { set; get; }
         public int Price { set; get; }
         public int Off { set; get; }
@@ -189,6 +288,8 @@ namespace BackHost.DBs
         public DbSet<Color> Colors { set; get; }
         public DbSet<Keyword> Keywords { set; get; }
         public DbSet<Product> Products { set; get; }
+        public DbSet<Model> Models { set; get; }
+        public DbSet<Size> Sizes { set; get; }
         public DbSet<Invoice> Invoices { set; get; }
         public DbSet<ProductType> ProductTypes { set; get; }
         public DbSet<Label> Labels { set; get; }

@@ -360,6 +360,29 @@ namespace BackHost.DB_Migrations
                     b.ToTable("Labels");
                 });
 
+            modelBuilder.Entity("BackHost.DBs.Model", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<DateTime?>("Create")
+                        .HasColumnType("datetime2");
+
+                    b.Property<short>("Status")
+                        .HasColumnType("smallint");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Models");
+                });
+
             modelBuilder.Entity("BackHost.DBs.Product", b =>
                 {
                     b.Property<long>("Id")
@@ -439,7 +462,7 @@ namespace BackHost.DB_Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
-                    b.Property<long>("ColorId")
+                    b.Property<long?>("ColorId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime?>("Create")
@@ -451,6 +474,9 @@ namespace BackHost.DB_Migrations
                     b.Property<int>("MaxAllowedBuy")
                         .HasColumnType("int");
 
+                    b.Property<long?>("ModelId")
+                        .HasColumnType("bigint");
+
                     b.Property<int>("Off")
                         .HasColumnType("int");
 
@@ -458,6 +484,9 @@ namespace BackHost.DB_Migrations
                         .HasColumnType("int");
 
                     b.Property<long>("ProductId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("SizeId")
                         .HasColumnType("bigint");
 
                     b.Property<int>("SoldCount")
@@ -474,8 +503,6 @@ namespace BackHost.DB_Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ColorId");
 
                     b.HasIndex("ProductId");
 
@@ -503,6 +530,29 @@ namespace BackHost.DB_Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Provinces");
+                });
+
+            modelBuilder.Entity("BackHost.DBs.Size", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<DateTime?>("Create")
+                        .HasColumnType("datetime2");
+
+                    b.Property<short>("Status")
+                        .HasColumnType("smallint");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Sizes");
                 });
 
             modelBuilder.Entity("Core.Models.FilesEntity", b =>
@@ -761,19 +811,11 @@ namespace BackHost.DB_Migrations
 
             modelBuilder.Entity("BackHost.DBs.ProductType", b =>
                 {
-                    b.HasOne("BackHost.DBs.Color", "Color")
-                        .WithMany()
-                        .HasForeignKey("ColorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("BackHost.DBs.Product", "Product")
                         .WithMany("Types")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Color");
 
                     b.Navigation("Product");
                 });

@@ -55,6 +55,7 @@ export class BackWrapperModule {
   constructor(wss: WebSiteService, themeService: ThemeService, domSanitizer: DomSanitizer, auth: AuthService, router: Router, titleService:Title) {
     AppInitializerProvider2(themeService, domSanitizer, auth);
     wss.appConfig = {
+      showWaterMark:true,
       routes: routes,
       description: '',
       fullName: '',

@@ -7,7 +7,7 @@ import { Validators, FormGroup } from '@angular/forms';
 import { ActiveStatus, defaultPropertyConfiguration, defaultPropertyWithTitleConfiguration, defaultStatuses, DeletedStatus, FullStatuses, PublishedStatus } from '../../../../../../Santel/ClientApp/src/app/services/properties';
 
 import "reflect-metadata";
-import { CityComponent, BrandComponent, CategoryComponent, ColorComponent, KeyWordComponent, ProvinceComponent, ProductComponent } from './components';
+import { CityComponent, BrandComponent, CategoryComponent, ColorComponent, KeyWordComponent, ProvinceComponent, ProductComponent, ModelComponent, SizeComponent } from './components';
 
 
 
@@ -19,13 +19,17 @@ export class Category extends BaseModelWithTitle {
 }
 
 export class Brand extends BaseModelWithTitle {
-  Images: Images[]=[];
+  Images: Image[]=[];
   Description="";
   Summary="";
 }
 
 export class Color extends BaseModelWithTitle {
   Value="";
+}
+export class Size extends BaseModelWithTitle {
+}
+export class Model extends BaseModelWithTitle {
 }
 export class Province extends BaseModelWithTitle {
 }
@@ -43,7 +47,7 @@ export class Product extends BaseModelWithTitle {
   Category!: Category;
   Summary="";
   Description="";
-  Images: Images[] = [];
+  Images: Image[] = [];
   Types: ProductType[] = [];
   KeyWords: Keyword[] = [];
   ProductKeyWords: ProductKeyword[] = [];
@@ -78,6 +82,8 @@ export class ProductType extends BaseModel {
   Title="";
   Color!: Color;
   ColorId!: number;
+  SizeId!: number;
+  ModelId!: number;
   Decription="";
   Price!: number;
   Off!: number;
@@ -122,7 +128,7 @@ export class ProductProduct {
   RelatedProduct!: Product;
 }
 
-export class Images {
+export class Image {
   Path="";
   Description="";
 }
@@ -157,8 +163,8 @@ export const config: WebSiteConfiguration = new WebSiteConfiguration('DB', 'مد
 
   new EntityConfiguration<Category>("Category", Category, CategoryComponent, 'دسته بندی', defaultStatuses, [
     ...defaultPropertyWithTitleConfiguration,
-    new PropertyConfiguration<Category>(c => c.ParentCategoryId, 'دسته بندی والد', { Type: 'list', TypeHelper: 'Category', InPicker: false, InTable: false, Validators: [] }),
-    new PropertyConfiguration<Category>(c => c.Priority, 'اولویت', { Type: 'list', TypeHelper: 'Category', InPicker: false, InTable: false, Validators: [] }),
+    new PropertyConfiguration<Category>(c => c.ParentCategoryId, 'دسته بندی والد', { Type: 'fromList', TypeHelper: 'Category', InPicker: false, InTable: false, Validators: [] }),
+    new PropertyConfiguration<Category>(c => c.Priority, 'اولویت', { Type: 'fromList', TypeHelper: 'Category', InPicker: false, InTable: false, Validators: [] }),
   ], { componentType: ComponentTypes.tree, icon: 'city-variant-outline', treeParentKey: "ParentCategoryId" }),
 
   new EntityConfiguration<Brand>("Brand", Brand, BrandComponent, 'برند', defaultStatuses, [
@@ -174,6 +180,14 @@ export const config: WebSiteConfiguration = new WebSiteConfiguration('DB', 'مد
     new PropertyConfiguration<Color>(c => c.Value, 'رنگ', { Type: 'color', InPicker: true, InTable: true, Validators: [] }),
   ], { componentType: ComponentTypes.table, icon: 'city-variant-outline' }),
 
+  new EntityConfiguration<Model>("Model", Model, ModelComponent, 'مدل', defaultStatuses, [
+    ...defaultPropertyWithTitleConfiguration,
+  ], { componentType: ComponentTypes.table, icon: 'city-variant-outline' }),
+
+  new EntityConfiguration<Size>("Size", Size, SizeComponent, 'سایز', defaultStatuses, [
+    ...defaultPropertyWithTitleConfiguration,
+  ], { componentType: ComponentTypes.table, icon: 'city-variant-outline' }),
+
 
   new EntityConfiguration<Keyword>("Keyword", Keyword, KeyWordComponent, 'کلیدواژه', defaultStatuses, [
     ...defaultPropertyWithTitleConfiguration,
@@ -184,8 +198,8 @@ export const config: WebSiteConfiguration = new WebSiteConfiguration('DB', 'مد
   new EntityConfiguration<Product>("Product", Product, ProductComponent, 'محصولات', defaultStatuses, [
     ...defaultPropertyWithTitleConfiguration,
 
-    new PropertyConfiguration<Product>(c => c.CategoryId, 'دسته بندی', { Type: 'list', TypeHelper:'categories', value: null, Validators: [Validators.required], InTable: true, InPicker: true }),
-    new PropertyConfiguration<Product>(c=>c.Images, 'تصاویر  ', { value: [], Validators: [], InTable: true }),
+    new PropertyConfiguration<Product>(c => c.CategoryId, 'دسته بندی', { Type: 'fromList', TypeHelper:'categories', value: null, Validators: [Validators.required], InTable: true, InPicker: true }),
+    new PropertyConfiguration<Product>(c=>c.Images, 'تصاویر  ', { value: [], Validators: [], InTable: false }),
     new PropertyConfiguration<Product>(c=>c.Summary, 'خلاصه ', { Type: 'string', Validators: [], InTable: false }),
     new PropertyConfiguration<Product>(c=>c.Description, 'شرح  ', { Type: 'string', Validators: [], InTable: false }),
     new PropertyConfiguration<Product>(c=>c.ProductLabels, 'لیبل ها  ', { Type: 'custom', value: [], Validators: [], InTable: false }),
@@ -194,7 +208,7 @@ export const config: WebSiteConfiguration = new WebSiteConfiguration('DB', 'مد
 
 
 
-  ], { componentType: ComponentTypes.lazytable, icon: 'city-variant-outline', needToLoadAgainOnOpen: true, neededData: [Category, Color] }),
+  ], { componentType: ComponentTypes.lazytable, icon: 'city-variant-outline', needToLoadAgainOnOpen: true, neededData: [Category, Color, Size,Model] }),
 
 
 
@@ -219,7 +233,7 @@ export const config: WebSiteConfiguration = new WebSiteConfiguration('DB', 'مد
 
 @NgModule({
   declarations: [
-    CityComponent, BrandComponent, CategoryComponent, ColorComponent, KeyWordComponent, ProvinceComponent, ProductComponent
+    CityComponent, BrandComponent, CategoryComponent, ColorComponent, KeyWordComponent, ProvinceComponent, ProductComponent, ModelComponent, SizeComponent
   ],
   imports: [
     TemplateModule,
