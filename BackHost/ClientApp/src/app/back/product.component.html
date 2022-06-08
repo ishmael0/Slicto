@@ -96,13 +96,13 @@
 
             </td>
             <td>
-              <nz-input-number [(ngModel)]="c.SupplyCount" [nzMin]="0" (change)="makeItDirty(item)" [ngModelOptions]="{standalone: true}"></nz-input-number>
-              <nz-input-number [(ngModel)]="c.SoldCount" [nzMin]="0" (change)="makeItDirty(item)" [ngModelOptions]="{standalone: true}"></nz-input-number>
-              <nz-input-number [(ngModel)]="c.MaxAllowedBuy" [nzMin]="0" (change)="makeItDirty(item)" [ngModelOptions]="{standalone: true}"></nz-input-number>
+              <nz-input-number nzPlaceHolder="تعداد موجود" [(ngModel)]="c.SupplyCount" [nzMin]="0" (change)="makeItDirty(item)" [ngModelOptions]="{standalone: true}"></nz-input-number>
+              <nz-input-number nzPlaceHolder="تعداد فروخته شده" [(ngModel)]="c.SoldCount" [nzMin]="0" (change)="makeItDirty(item)" [ngModelOptions]="{standalone: true}"></nz-input-number>
+              <nz-input-number nzPlaceHolder="ماکزیمم تعداد قابل خرید در هر سفارش" [(ngModel)]="c.MaxAllowedBuy" [nzMin]="0" (change)="makeItDirty(item)" [ngModelOptions]="{standalone: true}"></nz-input-number>
             </td>
             <td>
-              <nz-input-number [(ngModel)]="c.Price" [nzMin]="1" (change)="makeItDirty(item)" [ngModelOptions]="{standalone: true}"></nz-input-number>
-              <nz-input-number [(ngModel)]="c.Off" [nzMin]="0" (change)="makeItDirty(item)" [ngModelOptions]="{standalone: true}"></nz-input-number>
+              <nz-input-number nzPlaceHolder="قیمت برای هر عدد" [(ngModel)]="c.Price" [nzMin]="1" (change)="makeItDirty(item)" [ngModelOptions]="{standalone: true}"></nz-input-number>
+              <nz-input-number nzPlaceHolder="تخفیف برای هر عدد" [(ngModel)]="c.Off" [nzMin]="0" (change)="makeItDirty(item)" [ngModelOptions]="{standalone: true}"></nz-input-number>
             </td>
           </ng-template>
         </app-drag-and-drop-list>
@@ -122,7 +122,7 @@
                                 [body]="body2">
           <ng-template #header2>
             <th>ردیف</th>
-            <th> نام </th> 
+            <th> نام </th>
             <th>فایل</th>
           </ng-template>
           <ng-template #body2 let-subitem="item" let-index="index">
@@ -131,7 +131,7 @@
               <input type="text" nz-input [ngModelOptions]="{standalone: true}" [(ngModel)]="subitem.Description" />
             </td>
             <td>
-              <img [src]="'front/'+subitem.Path" style="width:100px"/>
+              <img [src]="'front/'+subitem.Path" style="width:100px" />
               <button nz-button>
                 <i nz-icon
                    [innerHtml]="icons['download']"></i>
@@ -141,6 +141,38 @@
         </app-drag-and-drop-list>
       </form>
     </nz-tab>
+
+    <nz-tab *ngIf="item.controls['Id'].value>0" nzTitle="کلید واژه ها  ({{item.controls['KeyWords'].value?.length}})">
+      <button nz-button (click)="keywordModal = true;">
+        <i nz-icon
+           [innerHtml]="icons['plus-thick']"></i>
+      </button>
+
+      <form nz-form [formGroup]="item">
+
+        <app-drag-and-drop-list formControlName="KeyWords"
+                                [header]="header3"
+                                [addEnabled]="false"
+                                [body]="body3">
+          <ng-template #header3>
+            <th>ردیف</th>
+            <th>شناسه</th>
+            <th> نام </th>
+          </ng-template>
+          <ng-template #body3 let-subitem="item" let-index="index">
+            <td>{{index + 1}}</td>
+            <td>{{subitem.Id}}</td>
+            <td style="font-weight:bold">
+              {{subitem.Title}}
+            </td>
+          </ng-template>
+        </app-drag-and-drop-list>
+      </form>
+
+
+    </nz-tab>
+
+
   </nz-tabset>
 
 
@@ -182,5 +214,13 @@
     <ng-container *nzModalContent>
       <app-image-uploader-card [key]="dataManager.key" [Id]="docId" (onOk)="addDoc($event)"></app-image-uploader-card>
     </ng-container>
+  </nz-modal>
+
+  <nz-modal [(nzVisible)]="keywordModal" [nzFooter]="mainTemplate.modalEmptyFooter" nzTitle="افزودن تصویر" (nzOnCancel)="keywordModal = false">
+    <ng-container *nzModalContent>
+
+
+      <app-keyword (select)="addKeyword($event)"> </app-keyword>
+     </ng-container>
   </nz-modal>
 </ng-container>

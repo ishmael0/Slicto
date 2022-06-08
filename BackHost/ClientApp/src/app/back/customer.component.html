@@ -1,0 +1,118 @@
+
+
+<ng-template #form let-item="item">
+
+  <nz-tabset [nzAnimated]="false">
+    <nz-tab nzTitle="محتوای اصلی">
+
+      <ng-container *ngTemplateOutlet="mainTemplate?.defaultIdStatusForm;context:{item:item}"></ng-container>
+      <form nz-form [formGroup]="item">
+        <div nz-row>
+
+          <nz-form-label [nzXs]="24" [nzSm]="6" [nzMd]="3">  نام</nz-form-label>
+          <div nz-col [nzXs]="24" [nzSm]="18" [nzMd]="9">
+            <nz-form-item>
+              <nz-form-control>
+                <input nz-input formControlName="FirstName" nzPlaceHolder="لطفا نام را وارد نمایید" />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <nz-form-label [nzXs]="24" [nzSm]="6" [nzMd]="3">  نام خانوادگی</nz-form-label>
+          <div nz-col [nzXs]="24" [nzSm]="18" [nzMd]="9">
+            <nz-form-item>
+              <nz-form-control>
+                <input nz-input formControlName="LastName" nzPlaceHolder="لطفا نام خانوادگی را وارد نمایید" />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <nz-form-label [nzXs]="24" [nzSm]="6" [nzMd]="3">  شماره تماس  </nz-form-label>
+          <div nz-col [nzXs]="24" [nzSm]="18" [nzMd]="9">
+            <nz-form-item>
+              <nz-form-control>
+                <input nz-input formControlName="PhoneNumber" nzPlaceHolder="لطفا شماره تماس را وارد نمایید" />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <nz-form-label [nzXs]="24" [nzSm]="6" [nzMd]="3">  پسورد  </nz-form-label>
+          <div nz-col [nzXs]="24" [nzSm]="18" [nzMd]="9">
+            <nz-form-item>
+              <nz-form-control>
+                <input nz-input formControlName="Password" nzPlaceHolder="لطفا پسورد را وارد نمایید" />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <nz-form-label [nzXs]="24" [nzSm]="6" [nzMd]="3">        وضعیت تایید شماره تماس  </nz-form-label>
+          <div nz-col [nzXs]="24" [nzSm]="18" [nzMd]="9">
+            <nz-form-item>
+              <nz-form-control>
+                <label nz-checkbox formControlName="PhoneNumberConfirm">
+                  شماره تماس تایید شده است؟
+                </label>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </form>
+    </nz-tab>
+    <nz-tab *ngIf="item.controls['Id'].value>0" nzTitle="آدرس ها ({{item.controls['Addresses'].value?.length}})">
+      <form nz-form [formGroup]="item">
+        <app-drag-and-drop-list formControlName="Addresses"
+                                [header]="header2"
+                                [addEnabled]="true"
+                                [body]="body2">
+          <ng-template #header2>
+            <th>ردیف</th>
+            <th> استان / شهر</th>
+            <th>آدرس</th>
+            <th>کد پستی</th>
+            <th>Location</th>
+          </ng-template>
+          <ng-template #body2 let-subitem="item" let-index="index">
+            <td>{{index + 1}}</td>
+            <td style="font-weight:bold">
+              <input type="text" nz-input [ngModelOptions]="{standalone: true}" [(ngModel)]="subitem.Description" />
+            </td>
+            <td>
+              <textarea nz-input [(ngModel)]="subitem.FullAddress"  [ngModelOptions]="{standalone: true}" placeholder=" آدرس کامل" [nzAutosize]="{ minRows: 3, maxRows: 5 }"></textarea>
+            </td>
+            <td>
+              <input type="text" placeholder=" کد پستی " nz-input [ngModelOptions]="{standalone: true}" [(ngModel)]="subitem.PostalCode" />
+            </td>
+            <td></td>
+          </ng-template>
+        </app-drag-and-drop-list>
+      </form>
+    </nz-tab>
+    <nz-tab *ngIf="item.controls['Id'].value>0" nzTitle=" سفارشات ({{item.controls['Addresses'].value?.length}})">
+    </nz-tab>
+  </nz-tabset>
+</ng-template>
+
+<ng-template #viewMessage>
+  آیدی: 012331323
+</ng-template>
+<ng-template #search>
+
+
+
+
+
+</ng-template>
+
+
+<ng-template #tableBody let-item="item">
+  <td>{{ item.Id }}</td>
+  <td>{{ item.Create_ }}</td>
+  <ng-container *ngTemplateOutlet="mainTemplate?.statusView;context:{value:statusView(item.Status)}"></ng-container>
+  <td>{{ item.FirstName}}</td>
+  <td>{{ item.LastName}}</td>
+  <td>{{ item.PhoneNumber}}</td>
+  <td>{{ item.PhoneNumberConfirm}}</td>
+</ng-template>
+
+
+
+
+<app-template #mainTemplate *ngIf="ok" [com]="this"></app-template>
+

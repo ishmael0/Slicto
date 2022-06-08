@@ -3,7 +3,7 @@ import { BaseComponent } from '../../../../../../Santel/ClientApp/src/app/templa
 import { NzFormatEmitEvent, NzTreeComponent, NzTreeNodeOptions } from 'ng-zorro-antd/tree';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { getNameOf, HTTPTypes, JM, numberToText, NZNotificationTypes, RequestPlus, toTreeHelper, ValueTitle } from '../../../../../../Santel/ClientApp/src/app/services/utils';
-import { Brand, Category, City, Color, Image, Keyword, Model, Product, Province, Size } from './back.module';
+import { Brand, Category, City, Color, Customer, Image, Invoice, Keyword, Model, Product, Province, Size } from './back.module';
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
@@ -23,7 +23,15 @@ export class CategoryComponent extends BaseComponent<Category> {
 })
 export class BrandComponent extends BaseComponent<Brand> {
 }
-
+@Component({
+  selector: 'app-customer',
+  templateUrl: './customer.component.html',
+  styles: [
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class CustomerComponent extends BaseComponent<Customer> {
+}
 
 @Component({
   selector: 'app-color',
@@ -80,11 +88,21 @@ export class CityComponent extends BaseComponent<City> {
     this.listCache.provinces = this.dataManager.getLoadedData(Province);
   }
 }
+@Component({
+  selector: 'app-invoice',
+  templateUrl: './invoice.component.html',
+  styles: [
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class InvoiceComponent extends BaseComponent<Invoice> {
+
+}
 
 
 @Component({
-  selector: 'app-key-word',
-  templateUrl: './key-word.component.html',
+  selector: 'app-keyword',
+  templateUrl: './keyword.component.html',
   styles: [
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -94,7 +112,7 @@ export class KeyWordComponent extends BaseComponent<Keyword> {
 }
 
 @Component({
-  selector: 'product-word',
+  selector: 'product',
   templateUrl: './product.component.html',
   styles: [
   ],
@@ -102,7 +120,16 @@ export class KeyWordComponent extends BaseComponent<Keyword> {
 })
 export class ProductComponent extends BaseComponent<Product> {
   imageModal = false;
+  keywordModal = false;
   docId = 0;
+  addKeyword(e: any) {
+    this.keywordModal = false;
+    let x: Image[] = this.selectedForm().form.controls['KeyWords'].value;
+    x=x?x:[];
+    x.push(e);
+    this.selectedForm().form.controls['KeyWords'].setValue(x);
+    this.makeItDirty(this.selectedForm().form);
+  }
   addDoc(e: string) {
     this.imageModal = false;
     let x: Image[] = this.selectedForm().form.controls['Images'].value;
@@ -113,8 +140,7 @@ export class ProductComponent extends BaseComponent<Product> {
   override validationCheck() {
     let x = super.validationCheck();
     if (!x) return false;
-    if((this.selectedForm().form.controls['Types'].value as any[]).some(c => !c.Title || c.Title == "")  )
-    {
+    if ((this.selectedForm().form.controls['Types'].value as any[]).some(c => !c.Title || c.Title == "")) {
       this.http.createNotification(NZNotificationTypes.error, "خطا", "نام انواع محصول نمیتواند خالی باشد");
       return false;
     }

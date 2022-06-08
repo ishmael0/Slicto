@@ -4,6 +4,7 @@ using BackHost.DBs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackHost.DB_Migrations
 {
     [DbContext(typeof(DB))]
-    partial class DBModelSnapshot : ModelSnapshot
+    [Migration("20220608085228__2")]
+    partial class _2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -283,12 +285,11 @@ namespace BackHost.DB_Migrations
                     b.Property<bool>("IsPaid")
                         .HasColumnType("bit");
 
-                    b.Property<string>("OtherCostsOffs")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("PostPrice")
+                        .HasColumnType("int");
 
-                    b.Property<long>("Price")
-                        .HasColumnType("bigint");
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
 
                     b.Property<string>("ProductTypesForInvoice")
                         .IsRequired()
@@ -296,6 +297,10 @@ namespace BackHost.DB_Migrations
 
                     b.Property<short>("Status")
                         .HasColumnType("smallint");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -736,7 +741,7 @@ namespace BackHost.DB_Migrations
                         .IsRequired();
 
                     b.HasOne("BackHost.DBs.Customer", "Customer")
-                        .WithMany("Invoices")
+                        .WithMany()
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -815,11 +820,6 @@ namespace BackHost.DB_Migrations
                         .IsRequired();
 
                     b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("BackHost.DBs.Customer", b =>
-                {
-                    b.Navigation("Invoices");
                 });
 
             modelBuilder.Entity("BackHost.DBs.Keyword", b =>

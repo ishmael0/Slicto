@@ -47,25 +47,38 @@ namespace BackHost.DBs
                 }
                 else
                 {
-                    var x = t.Types;
+                    var types = t.Types;
                     t.Types = null;
-                    var existsId = x.Select(c => c.Id).Where(c => c > 0).ToList();
-                    var alltypes = await _context.ProductTypes.Where(c => c.ProductId == t.Id && !existsId.Contains(c.Id)).ToListAsync();
-                    var toDel = alltypes.Where(c => !x.Select(d => d.Id).Contains(c.Id));
-                    toDel.ToList().ForEach(c => _context.Remove(c));
-                    x.ToList().ForEach(c =>
+                    var keyWords = t.KeyWords;
+                    t.KeyWords = null;
                     {
-                        if (c.Id > 0)
-                            _context.Update(c);
-                        else
+
+                        var existsId = types.Select(c => c.Id).Where(c => c > 0).ToList();
+                        var alltypes = await _context.ProductTypes.Where(c => c.ProductId == t.Id && !existsId.Contains(c.Id)).ToListAsync();
+                        var toDel = alltypes.Where(c => !types.Select(d => d.Id).Contains(c.Id));
+                        toDel.ToList().ForEach(c => _context.Remove(c));
+                        types.ToList().ForEach(c =>
                         {
-                            c.Create = DateTime.Now;
-                            c.ProductId = t.Id;
-                            _context.Add(c);
-                        }
+                            if (c.Id > 0)
+                                _context.Update(c);
+                            else
+                            {
+                                c.Create = DateTime.Now;
+                                c.ProductId = t.Id;
+                                _context.Add(c);
+                            }
+                        });
+                        ts.Update(t);
                     }
-                    );
-                    ts.Update(t);
+                    {
+
+                        var allkewords = await _context.ProductKeywords.Where(c => c.ProductId == t.Id).AsNoTracking().ToListAsync();
+                        var toadd = keyWords.Where(c => !allkewords.Select(d => d.KeywordId).Contains(c.Id)).ToList();
+                        var todel = allkewords.Where(c => !keyWords.Select(d => d.Id).Contains(c.KeywordId)).ToList();
+                        toadd.ForEach(c => _context.Add(new ProductKeyword { KeywordId = c.Id, ProductId = t.Id }));
+                        todel.ForEach(c => _context.ProductKeywords.Remove(new ProductKeyword { KeywordId = c.KeywordId, ProductId = t.Id }));
+                        ts.Update(t);
+                    }
                     _context.Entry(t).Property(c => c.Create).IsModified = false;
                     await _context.SaveChangesAsync();
                 }
@@ -82,7 +95,10 @@ namespace BackHost.DBs
         [NonAction]
         public override IQueryable<Product> BeforeGet(IQueryable<Product> q)
         {
-             return base.BeforeGet(q).Include(c => c.Types).AsQueryable();
+            return base.BeforeGet(q)
+               .Include(c => c.Types)
+               .Include(c => c.KeyWords)
+               .AsQueryable();
         }
     }
 }
@@ -139,17 +155,22 @@ namespace BackHost.DBs
         public IEnumerable<ProductLabel> ProductLabels { get; set; }
 
     }
-    public class Invoice : BaseModelWithTitle
+    public class Invoice : BaseModel
     {
         public long CustomerId { set; get; }
         [ForeignKey("CustomerId")]
         public virtual Customer Customer { set; get; }
         public virtual Address Address { get; set; }
-        public int PostPrice { set; get; }
-        public int Price { set; get; }
+        public List<OtherCostsOffsHelper> OtherCostsOffs { set; get; }
+        public long Price { set; get; }
         public bool IsPaid { set; get; }
         public string Description { set; get; }
         public List<ProductTypeForInvoice> ProductTypesForInvoice { set; get; }
+    }
+    public class OtherCostsOffsHelper
+    {
+        public int Title { set; get; }
+        public long Value { set; get; }
     }
     public class ProductTypeForBasket
     {
@@ -256,6 +277,8 @@ namespace BackHost.DBs
         public string? Password { get; set; }
         public bool PhoneNumberConfirm { get; set; }
         public List<Address> Addresses { get; set; }
+        public ICollection<Invoice> Invoices { set; get; }
+
     }
     public class Address : BaseModelWithTitle
     {
@@ -288,6 +311,7 @@ namespace BackHost.DBs
         public DbSet<Color> Colors { set; get; }
         public DbSet<Keyword> Keywords { set; get; }
         public DbSet<Product> Products { set; get; }
+        public DbSet<ProductKeyword> ProductKeywords { set; get; }
         public DbSet<Model> Models { set; get; }
         public DbSet<Size> Sizes { set; get; }
         public DbSet<Invoice> Invoices { set; get; }
@@ -307,6 +331,7 @@ namespace BackHost.DBs
             modelBuilder.Entity<Customer>().Property(e => e.Addresses).HasConversion(v => JsonConvert.SerializeObject(v), v => JsonConvert.DeserializeObject<List<Address>>(v));
             modelBuilder.Entity<Brand>().Property(e => e.Images).HasConversion(v => JsonConvert.SerializeObject(v), v => JsonConvert.DeserializeObject<List<Images>>(v));
             modelBuilder.Entity<Product>().Property(e => e.Images).HasConversion(v => JsonConvert.SerializeObject(v), v => JsonConvert.DeserializeObject<List<Images>>(v));
+            modelBuilder.Entity<Invoice>().Property(e => e.OtherCostsOffs).HasConversion(v => JsonConvert.SerializeObject(v), v => JsonConvert.DeserializeObject<List<OtherCostsOffsHelper>>(v));
             //modelBuilder.Entity<Vahed>().Property(e => e.Gharardad).HasConversion(v => JsonConvert.SerializeObject(v), v => JsonConvert.DeserializeObject<List<Document>>(v));
 
             modelBuilder.Entity<Product>().HasMany(p => p.Labels).WithMany(p => p.Products).UsingEntity<ProductLabel>(

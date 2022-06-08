@@ -8,12 +8,10 @@
 <ng-template #viewMessage>
   آیدی: 012331323
 </ng-template>
-<ng-template #search>
-
-
-
-
-
+<ng-template #tableBodyPicker let-item="item">
+  <td>{{ item.Id }}</td>
+  <td>{{ item.Title }}</td>
+  <ng-container *ngTemplateOutlet="mainTemplate?.statusView;context:{value:statusView(item.Status)}"></ng-container>
 </ng-template>
 
 
