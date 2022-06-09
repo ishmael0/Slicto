@@ -63,23 +63,39 @@
                                 [body]="body2">
           <ng-template #header2>
             <th>ردیف</th>
+            <th>شناسه آدرس</th>
             <th> استان / شهر</th>
             <th>آدرس</th>
             <th>کد پستی</th>
-            <th>Location</th>
+            <th>
+              Latitude/
+            </th>
           </ng-template>
           <ng-template #body2 let-subitem="item" let-index="index">
             <td>{{index + 1}}</td>
+            <td>
+              <nz-tag [nzColor]="'#f50'">شناسه {{subitem.Id}} </nz-tag>
+            </td>
             <td style="font-weight:bold">
-              <input type="text" nz-input [ngModelOptions]="{standalone: true}" [(ngModel)]="subitem.Description" />
+              <nz-select nzShowSearch nzAllowClear
+                         nzPlaceHolder="استان/شهر"
+                         [nzOptions]="listCache.cities"
+                         (change)="makeItDirty(item)"
+                         [ngModelOptions]="{standalone: true}"
+                         [(ngModel)]="subitem.CityId"></nz-select>
+
+
             </td>
             <td>
-              <textarea nz-input [(ngModel)]="subitem.FullAddress"  [ngModelOptions]="{standalone: true}" placeholder=" آدرس کامل" [nzAutosize]="{ minRows: 3, maxRows: 5 }"></textarea>
+              <textarea nz-input [(ngModel)]="subitem.FullAddress" (change)="makeItDirty(item)" [ngModelOptions]="{standalone: true}" placeholder=" آدرس کامل" [nzAutosize]="{ minRows: 3, maxRows: 5 }"></textarea>
             </td>
             <td>
-              <input type="text" placeholder=" کد پستی " nz-input [ngModelOptions]="{standalone: true}" [(ngModel)]="subitem.PostalCode" />
+              <input type="text" placeholder=" کد پستی " (change)="makeItDirty(item)" nz-input [ngModelOptions]="{standalone: true}" [(ngModel)]="subitem.PostalCode" />
             </td>
-            <td></td>
+            <td>
+              <input type="text" (change)="makeItDirty(item)" nz-input [ngModelOptions]="{standalone: true}" [(ngModel)]="subitem.Latitude" />
+              <input type="text" (change)="makeItDirty(item)" nz-input [ngModelOptions]="{standalone: true}" [(ngModel)]="subitem.Longitude" />
+            </td>
           </ng-template>
         </app-drag-and-drop-list>
       </form>
@@ -92,12 +108,12 @@
 <ng-template #viewMessage>
   آیدی: 012331323
 </ng-template>
-<ng-template #search>
-
-
-
-
-
+<ng-template #tableBodyPicker let-item="item">
+  <td>{{item.Id}}</td>
+  <ng-container *ngTemplateOutlet="mainTemplate?.statusView;context:{value:statusView(item.Status)}"></ng-container>
+  <td>{{item.FirstName}}</td>
+  <td>{{item.LastName}}</td>
+  <td>{{item.PhoneNumber}}</td>
 </ng-template>
 
 

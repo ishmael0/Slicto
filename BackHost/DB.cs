@@ -12,6 +12,21 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BackHost.DBs
 {
+    public class InvoiceController : BaseController<DB, Invoice>
+    {
+        public InvoiceController(DB dbContext, UserPermissionManager upm, IOptions<AppSettingPrivates> options) : base(dbContext, upm, options)
+        {
+        }
+        public override void BeforeSet(Invoice t)
+        {
+            base.BeforeSet(t);
+            t.Customer = null;
+        }
+        public override IQueryable<Invoice> BeforeGet(IQueryable<Invoice> q)
+        {
+            return base.BeforeGet(q).Include(c=>c.Customer);
+        }
+    }
     public class ProductController : BaseController<DB, Product>
     {
         public ProductController(DB dbContext, UserPermissionManager upm, IOptions<AppSettingPrivates> options) : base(dbContext, upm, options)
@@ -160,7 +175,7 @@ namespace BackHost.DBs
         public long CustomerId { set; get; }
         [ForeignKey("CustomerId")]
         public virtual Customer Customer { set; get; }
-        public virtual Address Address { get; set; }
+        public Address? Address { get; set; }
         public List<OtherCostsOffsHelper> OtherCostsOffs { set; get; }
         public long Price { set; get; }
         public bool IsPaid { set; get; }
@@ -280,12 +295,10 @@ namespace BackHost.DBs
         public ICollection<Invoice> Invoices { set; get; }
 
     }
-    public class Address : BaseModelWithTitle
+    public class Address : BaseModel
     {
         public string? PostalCode { set; get; }
-        public string? Province { set; get; }
-        public long ProvinceId { set; get; }
-        public string? City { set; get; }
+        public string Id{ set; get; }
         public long CityId { set; get; }
         public string? FullAddress { set; get; }
         public string? Latitude { set; get; }
@@ -328,6 +341,7 @@ namespace BackHost.DBs
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Basket>().Property(e => e.ProductTypesForBasket).HasConversion(v => JsonConvert.SerializeObject(v), v => JsonConvert.DeserializeObject<List<ProductTypeForBasket>>(v));
             modelBuilder.Entity<Invoice>().Property(e => e.ProductTypesForInvoice).HasConversion(v => JsonConvert.SerializeObject(v), v => JsonConvert.DeserializeObject<List<ProductTypeForInvoice>>(v));
+            modelBuilder.Entity<Invoice>().Property(e => e.Address).HasConversion(v => JsonConvert.SerializeObject(v), v => JsonConvert.DeserializeObject<Address>(v));
             modelBuilder.Entity<Customer>().Property(e => e.Addresses).HasConversion(v => JsonConvert.SerializeObject(v), v => JsonConvert.DeserializeObject<List<Address>>(v));
             modelBuilder.Entity<Brand>().Property(e => e.Images).HasConversion(v => JsonConvert.SerializeObject(v), v => JsonConvert.DeserializeObject<List<Images>>(v));
             modelBuilder.Entity<Product>().Property(e => e.Images).HasConversion(v => JsonConvert.SerializeObject(v), v => JsonConvert.DeserializeObject<List<Images>>(v));

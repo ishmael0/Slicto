@@ -2,8 +2,8 @@ import { Component, OnInit, ChangeDetectionStrategy, Injector } from '@angular/c
 import { BaseComponent } from '../../../../../../Santel/ClientApp/src/app/template/base/base.component';
 import { NzFormatEmitEvent, NzTreeComponent, NzTreeNodeOptions } from 'ng-zorro-antd/tree';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { getNameOf, HTTPTypes, JM, numberToText, NZNotificationTypes, RequestPlus, toTreeHelper, ValueTitle } from '../../../../../../Santel/ClientApp/src/app/services/utils';
-import { Brand, Category, City, Color, Customer, Image, Invoice, Keyword, Model, Product, Province, Size } from './back.module';
+import { getNameOf, HTTPTypes, JM, MakeId, numberToText, NZNotificationTypes, RequestPlus, toTreeHelper, ValueTitle } from '../../../../../../Santel/ClientApp/src/app/services/utils';
+import { Address, Brand, Category, City, Color, Customer, Image, Invoice, Keyword, Model, Product, Province, Size } from './back.module';
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
@@ -31,6 +31,27 @@ export class BrandComponent extends BaseComponent<Brand> {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CustomerComponent extends BaseComponent<Customer> {
+
+  override async beforSet() {
+    await super.beforSet();
+    let x: Address[] = this.selectedForm().form.controls['Addresses'].value;
+    if (!x) x = [];
+    for (var i = 0; i < x.length; i++) {
+      if (!x[i].Id)
+        x[i].Id = MakeId(8);
+    }
+    this.selectedForm().form.controls['Addresses'].setValue(x);
+  }
+  override async fill() {
+    await super.fill();
+    let provinces: Province[] = this.dataManager.getLoadedData(Province);
+    let cities: City[] = this.dataManager.getLoadedData(City);
+    this.listCache.provinces = provinces.map(c => ({
+      label: c.Title, children:
+        cities.filter(d => d.ProvinceId == c.Id).map(d => ({ label: d.Title, value: d.Id, isLeaf: true }))
+    }));
+    this.listCache.cities = cities.map(c => ({ value: c.Id, label: provinces.find(d => d.Id == c.ProvinceId)?.Title + "/" + c.Title }))
+  }
 }
 
 @Component({
@@ -96,6 +117,20 @@ export class CityComponent extends BaseComponent<City> {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InvoiceComponent extends BaseComponent<Invoice> {
+  customerModal = false;
+  addCustomer(e: any) {
+    this.selectedForm().form.controls['CustomerId'].setValue(e.Id);
+    this.selectedForm().form.controls['Customer'].setValue(e);
+    this.customerModal = false;
+    this.makeItDirty(this.selectedForm().form);
+  }
+  sumOfOther(item: FormGroup) {
+    var x: any[] = item.controls['OtherCostsOffs'].value;
+    return x.reduce((p, c) => { return p + c.Value ? c.Value : 0; }, 0)
+  };
+  sumAll(item: FormGroup) {
+    return 0;
+  }
 
 }
 
@@ -125,7 +160,7 @@ export class ProductComponent extends BaseComponent<Product> {
   addKeyword(e: any) {
     this.keywordModal = false;
     let x: Image[] = this.selectedForm().form.controls['KeyWords'].value;
-    x=x?x:[];
+    x = x ? x : [];
     x.push(e);
     this.selectedForm().form.controls['KeyWords'].setValue(x);
     this.makeItDirty(this.selectedForm().form);
