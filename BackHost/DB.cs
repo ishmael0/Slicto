@@ -12,19 +12,36 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BackHost.DBs
 {
+    public class LabelController : BaseController<DB, Label>
+    {
+        public LabelController(DB dbContext, UserPermissionManager upm, IOptions<AppSettingPrivates> options) : base(dbContext, upm, options)
+        {
+        }
+
+        [NonAction]
+        public override IQueryable<Label> BeforeGet(IQueryable<Label> q)
+        {
+            return base.BeforeGet(q).Include(c => c.Products);
+        }
+        [NonAction]
+        public override void SetUpdate(Label t)
+        {
+            Extentions.AddUpdateDeleteChild(_context, _context.ProductLabels.Where(c => c.LabelId == t.Id).ToList(), t.Products.Select(c => new ProductLabel { ProductId = c.Id, LabelId = t.Id }).ToList(), (t1, t2) => t1.ProductId == t2.ProductId);
+            t.Products = null;
+            base.SetUpdate(t);
+        }
+
+
+
+    }
     public class InvoiceController : BaseController<DB, Invoice>
     {
         public InvoiceController(DB dbContext, UserPermissionManager upm, IOptions<AppSettingPrivates> options) : base(dbContext, upm, options)
         {
         }
-        public override void BeforeSet(Invoice t)
-        {
-            base.BeforeSet(t);
-            t.Customer = null;
-        }
         public override IQueryable<Invoice> BeforeGet(IQueryable<Invoice> q)
         {
-            return base.BeforeGet(q).Include(c=>c.Customer);
+            return base.BeforeGet(q).Include(c => c.Customer);
         }
     }
     public class ProductController : BaseController<DB, Product>
@@ -32,81 +49,26 @@ namespace BackHost.DBs
         public ProductController(DB dbContext, UserPermissionManager upm, IOptions<AppSettingPrivates> options) : base(dbContext, upm, options)
         {
         }
-        [AuthorizeAttributeWithPermmisionRefreshToken]
-        [HttpPost]
-        public override async Task<JR<JM<Product>>> Set([FromQuery] IDictionary<string, string> param, [FromBody] Product t)
+        [NonAction]
+        public override void SetUpdate(Product t)
         {
-            if (t == null)
-                return JR<JM<Product>>.FailureBadRequest();
-            if (t.Id != 0 && HasAccessToId(upm, t.Id) != true)
-                return JR<JM<Product>>.FailureForbidden();
-            BeforeSet(t);
-            using var transaction = await _context.Database.BeginTransactionAsync();
-            try
-            {
+            t.Types.ToList().ForEach(c => { c.ProductId = t.Id; });
+            Extentions.AddUpdateDeleteChild(
+                _context,
+                _context.ProductTypes.Where(c => c.ProductId == t.Id).ToList(),
+                t.Types,
+                (t1, t2) => t1.Id == t2.Id);
+            t.Types = null;
 
-                if (t.Id == 0)
-                {
-                    var x = t.Types;
-                    t.Types = null;
-                    t.Create = DateTime.Now;
-                    ts.Add(t);
-                    await _context.SaveChangesAsync();
-                    x.ToList().ForEach(c =>
-                    {
-                        c.Create = DateTime.Now;
-                        c.ProductId = t.Id;
-                        _context.Add(c);
-                    });
-                    await _context.SaveChangesAsync();
-                }
-                else
-                {
-                    var types = t.Types;
-                    t.Types = null;
-                    var keyWords = t.KeyWords;
-                    t.KeyWords = null;
-                    {
-
-                        var existsId = types.Select(c => c.Id).Where(c => c > 0).ToList();
-                        var alltypes = await _context.ProductTypes.Where(c => c.ProductId == t.Id && !existsId.Contains(c.Id)).ToListAsync();
-                        var toDel = alltypes.Where(c => !types.Select(d => d.Id).Contains(c.Id));
-                        toDel.ToList().ForEach(c => _context.Remove(c));
-                        types.ToList().ForEach(c =>
-                        {
-                            if (c.Id > 0)
-                                _context.Update(c);
-                            else
-                            {
-                                c.Create = DateTime.Now;
-                                c.ProductId = t.Id;
-                                _context.Add(c);
-                            }
-                        });
-                        ts.Update(t);
-                    }
-                    {
-
-                        var allkewords = await _context.ProductKeywords.Where(c => c.ProductId == t.Id).AsNoTracking().ToListAsync();
-                        var toadd = keyWords.Where(c => !allkewords.Select(d => d.KeywordId).Contains(c.Id)).ToList();
-                        var todel = allkewords.Where(c => !keyWords.Select(d => d.Id).Contains(c.KeywordId)).ToList();
-                        toadd.ForEach(c => _context.Add(new ProductKeyword { KeywordId = c.Id, ProductId = t.Id }));
-                        todel.ForEach(c => _context.ProductKeywords.Remove(new ProductKeyword { KeywordId = c.KeywordId, ProductId = t.Id }));
-                        ts.Update(t);
-                    }
-                    _context.Entry(t).Property(c => c.Create).IsModified = false;
-                    await _context.SaveChangesAsync();
-                }
-
-                await transaction.CommitAsync();
-            }
-            catch (Exception)
-            {
-                await transaction.RollbackAsync();
-                return JR<JM<Product>>.FailureBadRequest();
-            }
-            return await GetHandler(param, t);
+            Extentions.AddUpdateDeleteChild(
+    _context,
+    _context.ProductKeywords.Where(c => c.ProductId == t.Id).ToList(),
+    t.KeyWords.Select(c => new ProductKeyword { KeywordId = c.Id, ProductId = t.Id }).ToList(),
+    (t1, t2) => t1.KeywordId == t2.KeywordId);
+            t.KeyWords = null;
+            base.SetUpdate(t);
         }
+
         [NonAction]
         public override IQueryable<Product> BeforeGet(IQueryable<Product> q)
         {
@@ -148,6 +110,10 @@ namespace BackHost.DBs
     public class Model : BaseModelWithTitle
     {
     }
+    [SafeToGetAll]
+    public class Pattern : BaseModelWithTitle
+    {
+    }
     public class Keyword : BaseModelWithTitle
     {
         public ICollection<Product> Products { set; get; }
@@ -184,21 +150,24 @@ namespace BackHost.DBs
     }
     public class OtherCostsOffsHelper
     {
-        public int Title { set; get; }
+        public String Title { set; get; }
         public long Value { set; get; }
     }
     public class ProductTypeForBasket
     {
         public long ProductTypeId { set; get; }
+        [NotMapped]
+        public virtual ProductType ProductType { set; get; }
         //[ForeignKey("ProductTypeId")]
         //public ProductType ProductType { set; get; }
         public int Count { set; get; }
-
     }
     public class ProductTypeForInvoice : ProductTypeForBasket
     {
         public int Price { set; get; }
         public int Off { set; get; }
+        [NotMapped]
+        public long Total { get { return (Price - Off) * Count; } }
     }
     public class ProductType : BaseModel
     {
@@ -210,6 +179,7 @@ namespace BackHost.DBs
         //[ForeignKey("ColorId")]
         //public Color Color { set; get; }
         public long? ColorId { set; get; }
+        public long? PatternId { set; get; }
 
         //[ForeignKey("SizeId")]
         //public Size Size { set; get; }
@@ -239,10 +209,9 @@ namespace BackHost.DBs
     [SafeToGetAll]
     public class Label : BaseModelWithTitle
     {
-        [ForeignKey("ColorId")]
-        public Color Color { set; get; }
-        public long ColorId { set; get; }
-        public ICollection<Product> Products { set; get; }
+        public string Color { set; get; }
+        [NotMapped]
+        public List<Product> Products { get; set; }
         public List<ProductLabel> ProductLabels { get; set; }
     }
     [SafeToGetAll]
@@ -298,7 +267,7 @@ namespace BackHost.DBs
     public class Address : BaseModel
     {
         public string? PostalCode { set; get; }
-        public string Id{ set; get; }
+        public string Id { set; get; }
         public long CityId { set; get; }
         public string? FullAddress { set; get; }
         public string? Latitude { set; get; }
@@ -323,6 +292,7 @@ namespace BackHost.DBs
         public DbSet<Brand> Brands { set; get; }
         public DbSet<Color> Colors { set; get; }
         public DbSet<Keyword> Keywords { set; get; }
+        public DbSet<Pattern> Patterns { set; get; }
         public DbSet<Product> Products { set; get; }
         public DbSet<ProductKeyword> ProductKeywords { set; get; }
         public DbSet<Model> Models { set; get; }

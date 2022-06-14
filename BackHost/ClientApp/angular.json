@@ -44,7 +44,6 @@
                 "input": "../../../Santel/ClientApp/src/assets",
                 "output": "/assets"
               }
-
             ],
             "styles": [
               "../../../Santel/ClientApp/src/styles.css",
@@ -63,7 +62,8 @@
             "stylePreprocessorOptions": {
               "includePaths": [ "../../../Santel/ClientApp/src/styles/themes" ]
             },
-            "scripts": []
+            "scripts": [
+            ]
           },
           "configurations": {
             "production": {
@@ -139,5 +139,8 @@
       }
     }
   },
-  "defaultProject": "BackApp"
+  "defaultProject": "BackApp",
+  "cli": {
+    "analytics": false
+  }
 }

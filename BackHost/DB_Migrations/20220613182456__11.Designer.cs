@@ -4,6 +4,7 @@ using BackHost.DBs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackHost.DB_Migrations
 {
     [DbContext(typeof(DB))]
-    partial class DBModelSnapshot : ModelSnapshot
+    [Migration("20220613182456__11")]
+    partial class _11
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -295,6 +297,10 @@ namespace BackHost.DB_Migrations
                     b.Property<DateTime?>("Create")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("ProductIds")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<short>("Status")
                         .HasColumnType("smallint");
 
@@ -421,7 +427,7 @@ namespace BackHost.DB_Migrations
 
                     b.HasIndex("LabelId");
 
-                    b.ToTable("ProductLabels");
+                    b.ToTable("ProductLabel");
                 });
 
             modelBuilder.Entity("BackHost.DBs.ProductType", b =>

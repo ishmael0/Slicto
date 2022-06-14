@@ -3,7 +3,10 @@ import { BaseComponent } from '../../../../../../Santel/ClientApp/src/app/templa
 import { NzFormatEmitEvent, NzTreeComponent, NzTreeNodeOptions } from 'ng-zorro-antd/tree';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { getNameOf, HTTPTypes, JM, MakeId, numberToText, NZNotificationTypes, RequestPlus, toTreeHelper, ValueTitle } from '../../../../../../Santel/ClientApp/src/app/services/utils';
-import { Address, Brand, Category, City, Color, Customer, Image, Invoice, Keyword, Model, Product, Province, Size } from './back.module';
+import { Address, Brand, Category, City, Color, Customer, Image, Invoice, Keyword, Label, Model, Pattern, Product, Province, Size } from './back.module';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
+
+
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
@@ -61,8 +64,18 @@ export class CustomerComponent extends BaseComponent<Customer> {
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ColorComponent extends BaseComponent<Color> {
-}
+export class ColorComponent extends BaseComponent<Color> { }
+
+
+@Component({
+  selector: 'app-pattern',
+  templateUrl: './pattern.component.html',
+  styles: [
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class PatternComponent extends BaseComponent<Pattern> { }
+
 
 @Component({
   selector: 'app-model',
@@ -129,11 +142,31 @@ export class InvoiceComponent extends BaseComponent<Invoice> {
     return x.reduce((p, c) => { return p + c.Value ? c.Value : 0; }, 0)
   };
   sumAll(item: FormGroup) {
-    return 0;
+    var x: any[] = item.controls['ProductTypesForInvoice'].value;
+    return x.reduce((p, c) => { return p + c.Value ? c.Value : 0; }, 0)
   }
-
+  ProductTypesForInvoiceChanged(item: FormGroup, subitem: any) {
+    subitem.Total = (subitem.Price - subitem.Off) * subitem.Count;
+    this.makeItDirty(item)
+  }
 }
-
+@Component({
+  selector: 'app-label',
+  templateUrl: './label.component.html',
+  styles: [
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class LabelComponent extends BaseComponent<Label> {
+  productModal = false;
+  addProduct(e: Product) {
+    let x: Product[] = this.selectedForm().form.controls['Products'].value;
+    x = x ? x : [];
+    x.push(e);
+    this.selectedForm().form.controls['Products'].setValue(x);
+    this.makeItDirty(this.selectedForm().form);
+  }
+}
 
 @Component({
   selector: 'app-keyword',
@@ -147,13 +180,44 @@ export class KeyWordComponent extends BaseComponent<Keyword> {
 }
 
 @Component({
-  selector: 'product',
+  selector: 'app-product',
   templateUrl: './product.component.html',
   styles: [
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductComponent extends BaseComponent<Product> {
+  editorConfig: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    height: '15rem',
+    minHeight: '5rem',
+    placeholder: 'Enter text here...',
+    translate: 'no',
+    defaultParagraphSeparator: 'p',
+    defaultFontName: 'Arial',
+    toolbarHiddenButtons: [
+      ['bold']
+    ],
+    customClasses: [
+      {
+        name: "quote",
+        class: "quote",
+      },
+      {
+        name: 'redText',
+        class: 'redText'
+      },
+      {
+        name: "titleText",
+        class: "titleText",
+        tag: "h1",
+      },
+    ]
+  };
+  //supload: (file: File) => {},
+
+
   imageModal = false;
   keywordModal = false;
   docId = 0;
@@ -193,6 +257,7 @@ export class ProductComponent extends BaseComponent<Product> {
     this.listCache.colors = this.dataManager.getLoadedData(Color);
     this.listCache.models = this.dataManager.getLoadedData(Model);
     this.listCache.sizes = this.dataManager.getLoadedData(Size);
+    this.listCache.patterns = this.dataManager.getLoadedData(Pattern);
   }
 }
 

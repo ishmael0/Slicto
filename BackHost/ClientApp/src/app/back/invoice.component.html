@@ -53,6 +53,11 @@
                 <textarea nz-input formControlName="Description" placeholder=" توضیحات مختصر" [nzAutosize]="{ minRows: 3, maxRows: 5 }"></textarea>
               </nz-form-control>
             </nz-form-item>
+
+
+
+
+
           </div>
         </div>
       </form>
@@ -69,14 +74,16 @@
           <ng-template #header>
             <th>ردیف</th>
             <th> نام محصول/نام ویژگی محصول </th>
-            <th> تعداد
-            /تخفیف
+            <th>
+              قیمت/
+              تعداد/
+              تخفیف برای هر عدد
             </th>
             <th> مبلغ(ریال)</th>
           </ng-template>
           <ng-template #footer>
             <td colspan="3">جمع: </td>
-            <td style="font-weight:bold">{{sumOfOther(item) | number}}</td>
+            <td style="font-weight:bold">{{sumAll(item) | number}}</td>
           </ng-template>
           <ng-template #body let-subitem="item" let-index="index">
             <td>{{index + 1}}</td>
@@ -84,13 +91,15 @@
               <input [(ngModel)]="subitem.Title" nz-input (change)="makeItDirty(item)" placeholder="نام" [ngModelOptions]="{standalone: true}" />
             </td>
             <td style="font-weight:bold">
-              <nz-input-number nzPlaceHolder="تعداد" [(ngModel)]="subitem.Value" [nzMin]="0" (change)="makeItDirty(item)" [ngModelOptions]="{standalone: true}"></nz-input-number>
-              <nz-input-number nzPlaceHolder="تخفیف" [(ngModel)]="subitem.Value" [nzMin]="0" (change)="makeItDirty(item)" [ngModelOptions]="{standalone: true}"></nz-input-number>
+              <nz-input-number nzPlaceHolder="قیمت" [(ngModel)]="subitem.Price" [nzMin]="0" (change)="ProductTypesForInvoiceChanged(item, subitem)" [ngModelOptions]="{standalone: true}"></nz-input-number>
+              <nz-input-number nzPlaceHolder="تعداد" [(ngModel)]="subitem.Count" [nzMin]="0" (change)="ProductTypesForInvoiceChanged(item, subitem)" [ngModelOptions]="{standalone: true}"></nz-input-number>
+              <nz-input-number nzPlaceHolder="تخفیف برای هر عدد" [(ngModel)]="subitem.Off" [nzMin]="0" (change)="ProductTypesForInvoiceChanged(item, subitem)" [ngModelOptions]="{standalone: true}"></nz-input-number>
             </td>
             <td style="font-weight:bold">
-              000
+              {{subitem.Total| number}}
             </td>
           </ng-template>
+ 
         </app-drag-and-drop-list>
 
 
@@ -116,7 +125,7 @@
               <input [(ngModel)]="subitem.Title" nz-input (change)="makeItDirty(item)" placeholder="نام" [ngModelOptions]="{standalone: true}" />
             </td>
             <td style="font-weight:bold">
-              <nz-input-number nzPlaceHolder="مبلغ" [(ngModel)]="subitem.Value" [nzMin]="0" (change)="makeItDirty(item)" [ngModelOptions]="{standalone: true}"></nz-input-number>
+              <nz-input-number nzPlaceHolder="مبلغ" [(ngModel)]="subitem.Value"   (change)="makeItDirty(item)" [ngModelOptions]="{standalone: true}"></nz-input-number>
             </td>
           </ng-template>
         </app-drag-and-drop-list>
@@ -142,7 +151,8 @@
   <td>{{ item.Create_}}</td>
   <ng-container *ngTemplateOutlet="mainTemplate?.statusView;context:{value:statusView(item.Status)}"></ng-container>
   <td>
-    {{ item.Customer.Id}}-
+    <nz-tag [nzColor]="'#f50'">{{ item.Customer.Id}}</nz-tag>
+
 
     {{ item.Customer.FirstName}}
     {{ item.Customer.LastName}}

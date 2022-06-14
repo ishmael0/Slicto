@@ -4,6 +4,7 @@ using BackHost.DBs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackHost.DB_Migrations
 {
     [DbContext(typeof(DB))]
-    partial class DBModelSnapshot : ModelSnapshot
+    [Migration("20220613135950__9")]
+    partial class _9
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -295,6 +297,10 @@ namespace BackHost.DB_Migrations
                     b.Property<DateTime?>("Create")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("ProductsIds")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<short>("Status")
                         .HasColumnType("smallint");
 
@@ -404,24 +410,6 @@ namespace BackHost.DB_Migrations
                     b.HasIndex("KeywordId");
 
                     b.ToTable("ProductKeywords");
-                });
-
-            modelBuilder.Entity("BackHost.DBs.ProductLabel", b =>
-                {
-                    b.Property<long>("ProductId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("LabelId")
-                        .HasColumnType("bigint");
-
-                    b.Property<int>("Priority")
-                        .HasColumnType("int");
-
-                    b.HasKey("ProductId", "LabelId");
-
-                    b.HasIndex("LabelId");
-
-                    b.ToTable("ProductLabels");
                 });
 
             modelBuilder.Entity("BackHost.DBs.ProductType", b =>
@@ -744,25 +732,6 @@ namespace BackHost.DB_Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("BackHost.DBs.ProductLabel", b =>
-                {
-                    b.HasOne("BackHost.DBs.Label", "Label")
-                        .WithMany("ProductLabels")
-                        .HasForeignKey("LabelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BackHost.DBs.Product", "Product")
-                        .WithMany("ProductLabels")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Label");
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("BackHost.DBs.ProductType", b =>
                 {
                     b.HasOne("BackHost.DBs.Product", "Product")
@@ -784,16 +753,9 @@ namespace BackHost.DB_Migrations
                     b.Navigation("ProductKeyWords");
                 });
 
-            modelBuilder.Entity("BackHost.DBs.Label", b =>
-                {
-                    b.Navigation("ProductLabels");
-                });
-
             modelBuilder.Entity("BackHost.DBs.Product", b =>
                 {
                     b.Navigation("ProductKeyWords");
-
-                    b.Navigation("ProductLabels");
 
                     b.Navigation("Types");
                 });
