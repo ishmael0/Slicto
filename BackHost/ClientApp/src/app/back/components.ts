@@ -185,7 +185,7 @@ export class KeyWordComponent extends BaseComponent<Keyword> {
   styles: [
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
-})
+}) 
 export class ProductComponent extends BaseComponent<Product> {
   editorConfig: AngularEditorConfig = {
     editable: true,
@@ -218,15 +218,36 @@ export class ProductComponent extends BaseComponent<Product> {
   //supload: (file: File) => {},
 
 
+  labelsModal = false;
   imageModal = false;
+  productModal = false;
   keywordModal = false;
   docId = 0;
-  addKeyword(e: any) {
-    this.keywordModal = false;
-    let x: Image[] = this.selectedForm().form.controls['KeyWords'].value;
+  addKeyword(e: Keyword) {
+    let x: Keyword[] = this.selectedForm().form.controls['KeyWords'].value;
     x = x ? x : [];
-    x.push(e);
+    if (!x.some(c => c.Id == e.Id))
+      x.push(e);
     this.selectedForm().form.controls['KeyWords'].setValue(x);
+    this.makeItDirty(this.selectedForm().form);
+  }
+  addProduct(e: Product) {
+    let id: number = this.selectedForm().form.controls['Id'].value;
+    if (e.Id == id) return;
+    let x: Product[] = this.selectedForm().form.controls['RelatedFrom'].value;
+    x = x ? x : [];
+    if (!x.some(c => c.Id == e.Id))
+      x.push(e);
+    this.selectedForm().form.controls['RelatedFrom'].setValue(x);
+    this.makeItDirty(this.selectedForm().form);
+  }
+  addLabel(e: Label) {
+    this.keywordModal = false;
+    let x: Label[] = this.selectedForm().form.controls['Labels'].value;
+    x = x ? x : [];
+    if (!x.some(c => c.Id == e.Id))
+      x.push(e);
+    this.selectedForm().form.controls['Labels'].setValue(x);
     this.makeItDirty(this.selectedForm().form);
   }
   addDoc(e: string) {

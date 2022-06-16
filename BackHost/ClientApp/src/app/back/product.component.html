@@ -138,7 +138,7 @@
       </form>
     </nz-tab>
 
-    <nz-tab *ngIf="item.controls['Id'].value>0" nzTitle="کلید واژه ها  ({{item.controls['KeyWords'].value?.length}})">
+    <nz-tab *ngIf="item.controls['Id'].value>0" nzTitle=" کلید واژه ها  ({{item.controls['KeyWords'].value?.length}})">
       <button nz-button (click)="keywordModal = true;">
         <i nz-icon
            [innerHtml]="icons['plus-thick']"></i>
@@ -167,8 +167,66 @@
 
 
     </nz-tab>
+    <nz-tab *ngIf="item.controls['Id'].value>0" nzTitle="لیبل ها  ({{item.controls['Labels'].value?.length}})">
+      <button nz-button (click)="labelsModal = true;">
+        <i nz-icon
+           [innerHtml]="icons['plus-thick']"></i>
+      </button>
+
+      <form nz-form [formGroup]="item">
+
+        <app-drag-and-drop-list formControlName="Labels"
+                                [header]="header4"
+                                [addEnabled]="false"
+                                [body]="body4">
+          <ng-template #header4>
+            <th>ردیف</th>
+            <th>شناسه</th>
+            <th> نام </th>
+          </ng-template>
+          <ng-template #body4 let-subitem="item" let-index="index">
+            <td>{{index + 1}}</td>
+            <td>{{subitem.Id}}</td>
+            <td style="font-weight:bold">
+              {{subitem.Title}}
+            </td>
+          </ng-template>
+        </app-drag-and-drop-list>
+      </form>
 
 
+    </nz-tab>
+    <nz-tab *ngIf="item.controls['Id'].value>0" nzTitle="محصولات ({{item.controls['RelatedFrom']?.value?.length}})">
+
+      <button nz-button (click)=" productModal = true;">
+        <i nz-icon
+           [innerHtml]="icons['plus-thick']"></i>
+      </button>
+      <form nz-form [formGroup]="item">
+
+        <app-drag-and-drop-list formControlName="RelatedFrom"
+                                [header]="header5"
+                                [addEnabled]="false"
+                                [body]="body5">
+          <ng-template #header5>
+            <th>ردیف</th>
+            <th> شناسه </th>
+            <th> نام </th>
+          </ng-template>
+          <ng-template #body5 let-subitem="item" let-index="index">
+            <td>{{index + 1}}</td>
+            <td style="font-weight:bold">
+              {{subitem.Id}}
+            </td>
+            <td style="font-weight:bold">
+              {{subitem.Title}}
+            </td>
+
+          </ng-template>
+        </app-drag-and-drop-list>
+      </form>
+
+    </nz-tab>
   </nz-tabset>
 
 
@@ -215,11 +273,15 @@
     </ng-container>
   </nz-modal>
 
-  <nz-modal [(nzVisible)]="keywordModal" [nzFooter]="mainTemplate.modalEmptyFooter" nzTitle="افزودن تصویر" (nzOnCancel)="keywordModal = false">
+  <nz-modal [(nzVisible)]="labelsModal" [nzFooter]="mainTemplate.modalEmptyFooter" nzTitle="افزودن لیبل" (nzOnCancel)="labelsModal = false">
     <ng-container *nzModalContent>
+      <app-label (select)="addLabel($event)"> </app-label>
+     </ng-container>
+  </nz-modal>
 
-
-      <app-keyword (select)="addKeyword($event)"> </app-keyword>
+  <nz-modal [(nzVisible)]="productModal" [nzFooter]="mainTemplate.modalEmptyFooter" nzTitle="افزودن محصول مرتبط" (nzOnCancel)="productModal = false">
+    <ng-container *nzModalContent>
+      <app-product (select)="addProduct($event)"> </app-product>
      </ng-container>
   </nz-modal>
 </ng-container>

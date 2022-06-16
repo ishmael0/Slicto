@@ -4,6 +4,7 @@ using BackHost.DBs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackHost.DB_Migrations
 {
     [DbContext(typeof(DB))]
-    partial class DBModelSnapshot : ModelSnapshot
+    [Migration("20220615135828__13")]
+    partial class _13
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -307,33 +309,6 @@ namespace BackHost.DB_Migrations
                     b.ToTable("Labels");
                 });
 
-            modelBuilder.Entity("BackHost.DBs.Message", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
-                    b.Property<DateTime?>("Create")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<short>("Status")
-                        .HasColumnType("smallint");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Message");
-                });
-
             modelBuilder.Entity("BackHost.DBs.Model", b =>
                 {
                     b.Property<long>("Id")
@@ -426,9 +401,6 @@ namespace BackHost.DB_Migrations
                     b.Property<long>("KeywordId")
                         .HasColumnType("bigint");
 
-                    b.Property<int>("Order")
-                        .HasColumnType("int");
-
                     b.HasKey("ProductId", "KeywordId");
 
                     b.HasIndex("KeywordId");
@@ -443,9 +415,6 @@ namespace BackHost.DB_Migrations
 
                     b.Property<long>("LabelId")
                         .HasColumnType("bigint");
-
-                    b.Property<int>("Order")
-                        .HasColumnType("int");
 
                     b.Property<int>("Priority")
                         .HasColumnType("int");
@@ -464,9 +433,6 @@ namespace BackHost.DB_Migrations
 
                     b.Property<long>("FromId")
                         .HasColumnType("bigint");
-
-                    b.Property<int>("Order")
-                        .HasColumnType("int");
 
                     b.HasKey("ToId", "FromId");
 
@@ -499,9 +465,6 @@ namespace BackHost.DB_Migrations
                         .HasColumnType("bigint");
 
                     b.Property<int>("Off")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Order")
                         .HasColumnType("int");
 
                     b.Property<long?>("PatternId")
@@ -820,15 +783,15 @@ namespace BackHost.DB_Migrations
             modelBuilder.Entity("BackHost.DBs.ProductProduct", b =>
                 {
                     b.HasOne("BackHost.DBs.Product", "From")
-                        .WithMany("ProductProductTo")
+                        .WithMany("ProductProductFrom")
                         .HasForeignKey("FromId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("BackHost.DBs.Product", "To")
-                        .WithMany("ProductProductFrom")
+                        .WithMany("ProductProductTo")
                         .HasForeignKey("ToId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.Navigation("From");

@@ -53,7 +53,9 @@ export class Product extends BaseModelWithTitle {
   Images: Image[] = [];
   Types: ProductType[] = [];
   KeyWords: Keyword[] = [];
-  ProductKeyWords: ProductKeyword[] = [];
+  Labels: Label[] = [];
+  RelatedFrom: Product[] = [];
+  //ProductKeyWords: ProductKeyword[] = [];
   //Labels: Label[] = [];
   //ProductLabels: ProductLabel[] = [];
 }
@@ -195,7 +197,7 @@ export const config: WebSiteConfiguration = new WebSiteConfiguration('DB', 'مد
   new EntityConfiguration<Size>("Size", Size, SizeComponent, 'سایز', defaultStatuses, [
     ...defaultPropertyWithTitleConfiguration,
   ], { componentType: ComponentTypes.table, icon: 'city-variant-outline' }),
-
+   
   new EntityConfiguration<Pattern>("Pattern", Pattern, PatternComponent, 'طرح', defaultStatuses, [
     ...defaultPropertyWithTitleConfiguration,
   ], { componentType: ComponentTypes.table, icon: 'city-variant-outline' }),
@@ -210,7 +212,7 @@ export const config: WebSiteConfiguration = new WebSiteConfiguration('DB', 'مد
     new PropertyConfiguration<Label>(c => c.Color, 'رنگ', { Type: 'color', InPicker: true, InTable: true, Validators: [Validators.required] }),
     new PropertyConfiguration<Label>(c => c.Products, 'محصولات', { Type: 'list', InPicker: false, InTable: false, Validators: [] }),
     //new PropertyConfiguration<Label>(c => c.ProductLabels, 'محصولات', { Type: 'list', InPicker: false, InTable: false, Validators: [] }),
-  ], { componentType: ComponentTypes.table, icon: 'city-variant-outline' }),
+  ], { componentType: ComponentTypes.table, icon: 'tag-multiple-outline' }),
 
 
 
@@ -221,9 +223,10 @@ export const config: WebSiteConfiguration = new WebSiteConfiguration('DB', 'مد
     new PropertyConfiguration<Product>(c => c.Images, 'تصاویر  ', { value: [], Validators: [], InTable: false }),
     new PropertyConfiguration<Product>(c => c.Summary, 'خلاصه ', { Type: 'string', Validators: [], InTable: false }),
     new PropertyConfiguration<Product>(c => c.Description, 'شرح  ', { Type: 'string', Validators: [], InTable: false }),
-    //new PropertyConfiguration<Product>(c => c.ProductLabels, 'لیبل ها  ', { Type: 'custom', value: [], Validators: [], InTable: false }),
+    new PropertyConfiguration<Product>(c => c.Labels, 'لیبل ها  ', { Type: 'custom', value: [], Validators: [], InTable: false }),
     new PropertyConfiguration<Product>(c => c.Types, 'انواع  ', { Type: 'custom', value: [], Validators: [], InTable: false }),
     new PropertyConfiguration<Product>(c => c.KeyWords, ' کلید واژه ها', { Type: 'custom', value: [], Validators: [], InTable: false }),
+    new PropertyConfiguration<Product>(c => c.RelatedFrom, ' محصولات مرتبط', { Type: 'custom', value: [], Validators: [], InTable: false }),
   ], { componentType: ComponentTypes.lazytable, icon: 'city-variant-outline', needToLoadAgainOnOpen: true, neededData: [Category, Color, Size, Model] }),
 
 

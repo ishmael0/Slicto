@@ -4,6 +4,7 @@ using BackHost.DBs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackHost.DB_Migrations
 {
     [DbContext(typeof(DB))]
-    partial class DBModelSnapshot : ModelSnapshot
+    [Migration("20220615194639__15")]
+    partial class _15
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -499,9 +501,6 @@ namespace BackHost.DB_Migrations
                         .HasColumnType("bigint");
 
                     b.Property<int>("Off")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Order")
                         .HasColumnType("int");
 
                     b.Property<long?>("PatternId")

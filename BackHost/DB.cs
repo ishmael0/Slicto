@@ -26,7 +26,7 @@ namespace BackHost.DBs
         [NonAction]
         public override void SetUpdate(Label t)
         {
-            Extentions.AddUpdateDeleteChild(_context, _context.ProductLabels.Where(c => c.LabelId == t.Id).ToList(), t.Products.Select(c => new ProductLabel { ProductId = c.Id, LabelId = t.Id }).ToList(), (t1, t2) => t1.ProductId == t2.ProductId);
+            Extentions.AddUpdateDeleteChild(_context, _context.ProductLabels.Where(c => c.LabelId == t.Id).ToList(), t.Products.Select((c, i) => new ProductLabel { ProductId = c.Id, LabelId = t.Id }).ToList(), (t1, t2) => t1.ProductId == t2.ProductId);
             t.Products = null;
             base.SetUpdate(t);
         }
@@ -63,19 +63,43 @@ namespace BackHost.DBs
             Extentions.AddUpdateDeleteChild(
     _context,
     _context.ProductKeywords.Where(c => c.ProductId == t.Id).ToList(),
-    t.KeyWords.Select(c => new ProductKeyword { KeywordId = c.Id, ProductId = t.Id }).ToList(),
+    t.KeyWords.Select((c, i) => new ProductKeyword { KeywordId = c.Id, ProductId = t.Id }).ToList(),
     (t1, t2) => t1.KeywordId == t2.KeywordId);
             t.KeyWords = null;
+
+
+            Extentions.AddUpdateDeleteChild(
+_context,
+_context.ProductLabels.Where(c => c.ProductId == t.Id).ToList(),
+t.Labels.Select((c, i) => new ProductLabel { LabelId = c.Id, ProductId = t.Id }).ToList(),
+(t1, t2) => t1.LabelId == t2.LabelId);
+            t.Labels = null;
+
+
+            Extentions.AddUpdateDeleteChild(
+_context,
+_context.ProductProducts.Where(c => c.FromId == t.Id).ToList(),
+t.RelatedFrom.Select((c, i) => new ProductProduct { ToId = c.Id, FromId = t.Id }).ToList(),
+(t1, t2) => t1.ToId == t2.ToId);
+            t.RelatedFrom = null;
+
+
             base.SetUpdate(t);
         }
-
-        [NonAction]
-        public override IQueryable<Product> BeforeGet(IQueryable<Product> q)
+        public override async Task<JR<Product>> GetSingle([FromQuery] int id)
         {
-            return base.BeforeGet(q)
-               .Include(c => c.Types)
-               .Include(c => c.KeyWords)
-               .AsQueryable();
+            var data = await ts
+                .Include(c => c.Types)
+                .Include(c => c.KeyWords)
+                .Include(c => c.Labels)
+                .Include(c => c.RelatedFrom)
+                .FirstOrDefaultAsync(c => c.Id == id);
+            if (data == null) return JR<Product>.FailureBadRequest();
+            data.Types = data.Types.OrderBy(c => c.Order).ToList();
+            data.KeyWords = data.KeyWords.OrderBy(c =>data.ProductKeyWords.FirstOrDefault(d=>d.KeywordId == c.Id)?.Order).ToList();
+            data.Labels = data.Labels.OrderBy(c =>data.ProductLabels.FirstOrDefault(d=>d.LabelId == c.Id)?.Order).ToList();
+            data.Labels = data.Labels.OrderBy(c =>data.ProductProductTo.FirstOrDefault(d=>d.FromId == c.Id)?.Order).ToList();
+            return JR<Product>.OK(data);
         }
     }
 }
@@ -89,6 +113,12 @@ namespace BackHost.DBs
         public Category? ParentCategory { set; get; }
         public string? Description { set; get; }
         public short Priority { set; get; }
+    }
+
+    public class Message : BaseModelWithTitle
+    {
+        public string PhoneNumber { set; get; }
+
     }
     [SafeToGetAll]
     public class Brand : BaseModelWithTitle
@@ -130,12 +160,36 @@ namespace BackHost.DBs
 
 
         public ICollection<ProductType> Types { set; get; }
+
         public ICollection<Keyword> KeyWords { set; get; }
         public IEnumerable<ProductKeyword> ProductKeyWords { set; get; }
+
         public ICollection<Label> Labels { set; get; }
         public IEnumerable<ProductLabel> ProductLabels { get; set; }
 
+        //public  ICollection<Product> RelatedProducts { get; set; }
+        //public virtual ICollection<ProductProduct> RelatedFrom { get; set; }
+        public virtual ICollection<Product> RelatedTo { get; set; }
+        public virtual ICollection<Product> RelatedFrom { get; set; }
+
+        public IEnumerable<ProductProduct> ProductProductTo { get; set; }
+        public IEnumerable<ProductProduct> ProductProductFrom { get; set; }
+
     }
+
+    public class ProductProduct
+    {
+        public long FromId { get; set; }
+        [ForeignKey("FromId")]
+        public Product From { get; set; }
+
+        public long ToId { get; set; }
+        [ForeignKey("ToId")]
+        public Product To { get; set; }
+        public int Order { get;  set; }
+    }
+
+
     public class Invoice : BaseModel
     {
         public long CustomerId { set; get; }
@@ -196,6 +250,7 @@ namespace BackHost.DBs
         public int SupplyCount { set; get; }
         public int SoldCount { set; get; }
         public int MaxAllowedBuy { set; get; }
+        public int Order { get; set; }
     }
     public class Basket : BaseModel
     {
@@ -227,6 +282,7 @@ namespace BackHost.DBs
         [ForeignKey("LabelId")]
         public Label Label { get; set; }
         public int Priority { set; get; }
+        public int Order { get;  set; }
     }
     public class ProductKeyword
     {
@@ -237,17 +293,9 @@ namespace BackHost.DBs
         public long KeywordId { get; set; }
         [ForeignKey("KeywordId")]
         public Keyword Keyword { get; set; }
+        public int Order { get;  set; }
     }
-    public class ProductProduct
-    {
-        public int ProductId { get; set; }
-        [ForeignKey("ProductId")]
-        public Product Product { get; set; }
 
-        public int RelatedProductId { get; set; }
-        [ForeignKey("RelatedProductId")]
-        public Product RelatedProduct { get; set; }
-    }
     public class Images
     {
         public string Path { set; get; }
@@ -291,9 +339,11 @@ namespace BackHost.DBs
         public DbSet<Category> Categories { set; get; }
         public DbSet<Brand> Brands { set; get; }
         public DbSet<Color> Colors { set; get; }
+        public DbSet<Message> Message { set; get; }
         public DbSet<Keyword> Keywords { set; get; }
         public DbSet<Pattern> Patterns { set; get; }
         public DbSet<Product> Products { set; get; }
+        public DbSet<ProductProduct> ProductProducts { set; get; }
         public DbSet<ProductKeyword> ProductKeywords { set; get; }
         public DbSet<Model> Models { set; get; }
         public DbSet<Size> Sizes { set; get; }
@@ -324,10 +374,19 @@ namespace BackHost.DBs
     j => { j.HasKey(t => new { t.ProductId, t.LabelId }); });
 
 
+
+
             modelBuilder.Entity<Product>().HasMany(p => p.KeyWords).WithMany(p => p.Products).UsingEntity<ProductKeyword>(
          j => j.HasOne(pt => pt.Keyword).WithMany(t => t.ProductKeyWords).HasForeignKey(pt => pt.KeywordId),
          j => j.HasOne(pt => pt.Product).WithMany(p => p.ProductKeyWords).HasForeignKey(pt => pt.ProductId),
          j => { j.HasKey(t => new { t.ProductId, t.KeywordId }); });
+
+
+            modelBuilder.Entity<Product>().HasMany(p => p.RelatedFrom).WithMany(p => p.RelatedTo).UsingEntity<ProductProduct>(
+        j => j.HasOne(pt => pt.To).WithMany(t => t.ProductProductFrom).HasForeignKey(pt => pt.ToId),
+        j => j.HasOne(pt => pt.From).WithMany(p => p.ProductProductTo).HasForeignKey(pt => pt.FromId),
+        j => { j.HasKey(t => new { t.ToId, t.FromId }); });
+
         }
     }
     public class MAINDBContextFactory : IDesignTimeDbContextFactory<DB>
