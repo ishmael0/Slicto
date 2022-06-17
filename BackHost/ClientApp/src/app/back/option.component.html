@@ -1,0 +1,120 @@
+
+
+<ng-template #form let-item="item">
+  <nz-tabset [nzAnimated]="false">
+    <nz-tab nzTitle="محتوای اصلی">
+      <ng-container *ngTemplateOutlet="mainTemplate?.defaultIdStatusTitleForm;context:{item:item}"></ng-container>
+      <form nz-form [formGroup]="item">
+
+        <div nz-row>
+
+          <nz-form-label [nzXs]="24" [nzSm]="6" [nzMd]="3">  نوع ویژگی</nz-form-label>
+          <div nz-col [nzXs]="24" [nzSm]="18" [nzMd]="9">
+            <nz-form-item>
+              <nz-form-control>
+                <nz-select formControlName="Type">
+                  <nz-option *ngFor="let i of listCache['Types']" [nzValue]="i.Id" [nzLabel]="i.Title"></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <nz-form-label [nzXs]="24" [nzSm]="6" [nzMd]="3"> عنوان انگلیسی</nz-form-label>
+          <div nz-col [nzXs]="24" [nzSm]="18" [nzMd]="9">
+            <nz-form-item>
+              <nz-form-control>
+                <input nz-input formControlName="EnglishTitle" nzPlaceHolder="لطفا عنوان انگلیسی را وارد نمایید" />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+          <nz-form-label [nzXs]="24" [nzSm]="6" [nzMd]="3">  توضیحات  </nz-form-label>
+          <div nz-col [nzXs]="24" [nzSm]="18" [nzMd]="9">
+            <nz-form-item>
+              <nz-form-control>
+                <textarea nz-input formControlName="Description" placeholder=" توضیحات  " [nzAutosize]="{ minRows: 3, maxRows: 5 }"></textarea>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+        </div>
+
+
+      </form>
+    </nz-tab>
+    <nz-tab *ngIf="item.controls['Id'].value>0" nzTitle="انواع ویژگی ({{item.controls['OptionTypes']?.value?.length}})">
+      <!--<button nz-button (click)="add(item)">
+        <i nz-icon
+           [innerHtml]="icons['plus-thick']"></i>
+      </button>-->
+
+      <form nz-form [formGroup]="item">
+
+        <app-drag-and-drop-list formControlName="OptionTypes"
+                                [header]="header2"
+                                [addEnabled]="true"
+                                [body]="body2">
+          <ng-template #header2>
+            <th>ردیف</th>
+            <th> شناسه </th>
+            <th> نام </th>
+            <th> مقدار </th>
+          </ng-template>
+          <ng-template #body2 let-subitem="item" let-index="index">
+            <td>{{index + 1}}</td>
+            <td style="font-weight:bold">
+              {{subitem.Id}}
+            </td>
+            <td style="font-weight:bold">
+              <input nz-input [(ngModel)]="subitem.Title" (change)="makeItDirty(item)" nzPlaceHolder="نام"  [ngModelOptions]="{standalone: true}"/>
+            </td>
+            <td style="font-weight:bold">
+              <input *ngIf="item.controls['Type'].value == 1" (change)="makeItDirty(item)" type="color" [(ngModel)]="subitem.Value" nzPlaceHolder="مقدار" [ngModelOptions]="{standalone: true}" />
+              <input *ngIf="item.controls['Type'].value == 3" (change)="makeItDirty(item)" type="text" [(ngModel)]="subitem.Value" nzPlaceHolder="مقدار" [ngModelOptions]="{standalone: true}" />
+            </td>
+
+          </ng-template>
+        </app-drag-and-drop-list>
+      </form>
+
+    </nz-tab>
+  </nz-tabset>
+
+
+
+
+
+
+</ng-template>
+
+<ng-template #viewMessage>
+  آیدی: 012331323
+</ng-template>
+<ng-template #search>
+
+
+
+
+
+</ng-template>
+
+
+<ng-template #tableBody let-item="item">
+  <td>{{ item.Id }}</td>
+  <td>{{ item.Title }}</td>
+  <td>{{ item.Create_}}</td>
+  <ng-container *ngTemplateOutlet="mainTemplate?.statusView;context:{value:statusView(item.Status)}"></ng-container>
+  <td>{{ item.Description }}</td>
+  <td>{{ item.EnglishTitle }}</td>
+  <td>{{ item.Type }}</td>
+</ng-template>
+
+<ng-template #tableBodyPicker let-item="item">
+  <td>{{ item.Id }}</td>
+  <td>{{ item.Title }}</td>
+  <ng-container *ngTemplateOutlet="mainTemplate?.statusView;context:{value:statusView(item.Status)}"></ng-container>
+  <td>{{ item.Color}}</td>
+</ng-template>
+
+
+<app-template #mainTemplate *ngIf="ok" [com]="this"></app-template>

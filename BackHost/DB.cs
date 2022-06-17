@@ -23,6 +23,12 @@ namespace BackHost.DBs
         {
             return base.BeforeGet(q).Include(c => c.Products);
         }
+        public override async Task<JR<Label>> GetSingle([FromQuery] int id)
+        {
+            var data = await ts.Include(c => c.Products).FirstOrDefaultAsync(c => c.Id == id);
+            if (data == null) return JR<Label>.FailureBadRequest();
+            return JR<Label>.OK(data);
+        }
         [NonAction]
         public override void SetUpdate(Label t)
         {
@@ -30,9 +36,26 @@ namespace BackHost.DBs
             t.Products = null;
             base.SetUpdate(t);
         }
-
-
-
+    }
+    public class OptionController : BaseController<DB, Option>
+    {
+        public OptionController(DB dbContext, UserPermissionManager upm, IOptions<AppSettingPrivates> options) : base(dbContext, upm, options)
+        {
+        }
+        public override void SetUpdate(Option t)
+        {
+            t.OptionTypes.ToList().ForEach(c => { c.OptionId = t.Id; });
+            Extentions.AddUpdateDeleteChild(_context,
+                _context.OptionTypes.Where(c => c.OptionId == t.Id).ToList(),
+                t.OptionTypes,
+                (t1, t2) => t1.Id == t2.Id);
+            t.OptionTypes = null;
+            base.SetUpdate(t);
+        }
+        public override IQueryable<Option> BeforeGet(IQueryable<Option> q)
+        {
+            return base.BeforeGet(q).Include(c => c.OptionTypes);
+        }
     }
     public class InvoiceController : BaseController<DB, Invoice>
     {
@@ -89,16 +112,16 @@ t.RelatedFrom.Select((c, i) => new ProductProduct { ToId = c.Id, FromId = t.Id }
         public override async Task<JR<Product>> GetSingle([FromQuery] int id)
         {
             var data = await ts
-                .Include(c => c.Types)
+                .Include(c => c.Types).ThenInclude(c=>c.OptionTypes)
                 .Include(c => c.KeyWords)
                 .Include(c => c.Labels)
                 .Include(c => c.RelatedFrom)
                 .FirstOrDefaultAsync(c => c.Id == id);
             if (data == null) return JR<Product>.FailureBadRequest();
             data.Types = data.Types.OrderBy(c => c.Order).ToList();
-            data.KeyWords = data.KeyWords.OrderBy(c =>data.ProductKeyWords.FirstOrDefault(d=>d.KeywordId == c.Id)?.Order).ToList();
-            data.Labels = data.Labels.OrderBy(c =>data.ProductLabels.FirstOrDefault(d=>d.LabelId == c.Id)?.Order).ToList();
-            data.Labels = data.Labels.OrderBy(c =>data.ProductProductTo.FirstOrDefault(d=>d.FromId == c.Id)?.Order).ToList();
+            data.KeyWords = data.KeyWords.OrderBy(c => data.ProductKeyWords.FirstOrDefault(d => d.KeywordId == c.Id)?.Order).ToList();
+            data.Labels = data.Labels.OrderBy(c => data.ProductLabels.FirstOrDefault(d => d.LabelId == c.Id)?.Order).ToList();
+            data.Labels = data.Labels.OrderBy(c => data.ProductProductTo.FirstOrDefault(d => d.FromId == c.Id)?.Order).ToList();
             return JR<Product>.OK(data);
         }
     }
@@ -156,6 +179,7 @@ namespace BackHost.DBs
         public virtual Category Category { set; get; }
         public string? Summary { set; get; }
         public string? Description { set; get; }
+        public string? EnglishTitle { set; get; }
         public List<Images> Images { set; get; }
 
 
@@ -186,7 +210,7 @@ namespace BackHost.DBs
         public long ToId { get; set; }
         [ForeignKey("ToId")]
         public Product To { get; set; }
-        public int Order { get;  set; }
+        public int Order { get; set; }
     }
 
 
@@ -251,6 +275,9 @@ namespace BackHost.DBs
         public int SoldCount { set; get; }
         public int MaxAllowedBuy { set; get; }
         public int Order { get; set; }
+
+        public ICollection<OptionType> OptionTypes { set; get; }
+        public IEnumerable<ProductTypeOptionType> ProductTypeOptionTypes { get; set; }
     }
     public class Basket : BaseModel
     {
@@ -282,7 +309,7 @@ namespace BackHost.DBs
         [ForeignKey("LabelId")]
         public Label Label { get; set; }
         public int Priority { set; get; }
-        public int Order { get;  set; }
+        public int Order { get; set; }
     }
     public class ProductKeyword
     {
@@ -293,9 +320,37 @@ namespace BackHost.DBs
         public long KeywordId { get; set; }
         [ForeignKey("KeywordId")]
         public Keyword Keyword { get; set; }
-        public int Order { get;  set; }
+        public int Order { get; set; }
     }
+    [SafeToGetAll]
+    public class Option : BaseModelWithTitle
+    {
+        //public List<object>Types { set; get; }
+        public int Type { set; get; }
+        public string EnglishTitle { set; get; }
+        public string Description { set; get; }
+        public ICollection<OptionType> OptionTypes { set; get; }
+    }
+    public class ProductTypeOptionType
+    {
+        public long ProductTypeId { get; set; }
+        [ForeignKey("ProductTypeId")]
+        public ProductType ProductType { get; set; }
 
+        public long OptionTypeId { get; set; }
+        [ForeignKey("OptionTypeId")]
+        public OptionType OptionType { get; set; }
+    }
+    public class OptionType : BaseModelWithTitle
+    {
+        [ForeignKey("OptionId")]
+        public Option Option { set; get; }
+        public long OptionId { get; set; }
+        public string Value { set; get; }
+
+        public ICollection<ProductType> ProductType { set; get; }
+        public IEnumerable<ProductTypeOptionType> ProductTypeOptionTypes { get; set; }
+    }
     public class Images
     {
         public string Path { set; get; }
@@ -352,6 +407,9 @@ namespace BackHost.DBs
         public DbSet<Label> Labels { set; get; }
         public DbSet<ProductLabel> ProductLabels { set; get; }
         public DbSet<Customer> Customer { set; get; }
+        public DbSet<Option> Options { set; get; }
+        public DbSet<OptionType> OptionTypes { set; get; }
+        public DbSet<ProductTypeOptionType> ProductTypeOptionTypes { set; get; }
         public DB(DbContextOptions<DB> options) : base(options)
         {
 
@@ -376,6 +434,8 @@ namespace BackHost.DBs
 
 
 
+
+
             modelBuilder.Entity<Product>().HasMany(p => p.KeyWords).WithMany(p => p.Products).UsingEntity<ProductKeyword>(
          j => j.HasOne(pt => pt.Keyword).WithMany(t => t.ProductKeyWords).HasForeignKey(pt => pt.KeywordId),
          j => j.HasOne(pt => pt.Product).WithMany(p => p.ProductKeyWords).HasForeignKey(pt => pt.ProductId),
@@ -386,6 +446,13 @@ namespace BackHost.DBs
         j => j.HasOne(pt => pt.To).WithMany(t => t.ProductProductFrom).HasForeignKey(pt => pt.ToId),
         j => j.HasOne(pt => pt.From).WithMany(p => p.ProductProductTo).HasForeignKey(pt => pt.FromId),
         j => { j.HasKey(t => new { t.ToId, t.FromId }); });
+
+
+
+            modelBuilder.Entity<ProductType>().HasMany(p => p.OptionTypes).WithMany(p => p.ProductType).UsingEntity<ProductTypeOptionType>(
+j => j.HasOne(pt => pt.OptionType).WithMany(t => t.ProductTypeOptionTypes).HasForeignKey(pt => pt.OptionTypeId),
+j => j.HasOne(pt => pt.ProductType).WithMany(p => p.ProductTypeOptionTypes).HasForeignKey(pt => pt.ProductTypeId),
+j => { j.HasKey(t => new { t.OptionTypeId, t.ProductTypeId }); });
 
         }
     }

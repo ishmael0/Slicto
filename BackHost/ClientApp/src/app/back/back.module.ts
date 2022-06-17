@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { buildPath, buildPathFromConfig, TemplateModule } from '../../../../../../Santel/ClientApp/src/app/template/template.module';
 import { RouterModule, Routes } from '@angular/router';
-import { BaseModel, BaseModelStringId, BaseModelWithTitle, ComponentTypes, EntityConfiguration, getNameOf, isUndefinedOrWhiteSpaces, PropertyConfiguration, Status, ValueTitle, WebSiteConfiguration } from '../../../../../../Santel/ClientApp/src/app/services/utils';
+import { BaseModel, BaseModelStringId, BaseModelWithTitle, ComponentTypes, EntityConfiguration, getNameOf, IdTitle, isUndefinedOrWhiteSpaces, PropertyConfiguration, Status, ValueTitle, WebSiteConfiguration } from '../../../../../../Santel/ClientApp/src/app/services/utils';
 import { WebSiteService } from '../../../../../../Santel/ClientApp/src/app/services/website.service';
 import { Validators, FormGroup } from '@angular/forms';
 import { ActiveStatus, defaultPropertyConfiguration, defaultPropertyWithTitleConfiguration, defaultStatuses, DeletedStatus, FullStatuses, InactiveStatus, PublishedStatus } from '../../../../../../Santel/ClientApp/src/app/services/properties';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 
 import "reflect-metadata";
-import { CityComponent, BrandComponent, CategoryComponent, ColorComponent, KeyWordComponent, ProvinceComponent, ProductComponent, ModelComponent, SizeComponent, CustomerComponent, InvoiceComponent, PatternComponent, LabelComponent } from './components';
+import { CityComponent, BrandComponent, CategoryComponent, KeyWordComponent, ProvinceComponent, ProductComponent, CustomerComponent, InvoiceComponent, LabelComponent, OptionComponent } from './components';
 
 
 
@@ -25,15 +25,15 @@ export class Brand extends BaseModelWithTitle {
   Summary = "";
 }
 
-export class Color extends BaseModelWithTitle {
-  Value = "";
-}
-export class Size extends BaseModelWithTitle {
-}
-export class Pattern extends BaseModelWithTitle {
-}
-export class Model extends BaseModelWithTitle {
-}
+//export class Color extends BaseModelWithTitle {
+//  Value = "";
+//}
+//export class Size extends BaseModelWithTitle {
+//}
+//export class Pattern extends BaseModelWithTitle {
+//}
+//export class Model extends BaseModelWithTitle {
+//}
 export class Province extends BaseModelWithTitle {
 }
 export class City extends BaseModelWithTitle {
@@ -47,6 +47,7 @@ export class Keyword extends BaseModelWithTitle {
 
 export class Product extends BaseModelWithTitle {
   CategoryId!: number;
+  EnglishTitle = "";
   Category!: Category;
   Summary = "";
   Description = "";
@@ -60,7 +61,7 @@ export class Product extends BaseModelWithTitle {
   //ProductLabels: ProductLabel[] = [];
 }
 
-export class Invoice extends BaseModel  {
+export class Invoice extends BaseModel {
   CustomerId!: number;
   Customer?: Customer;
   Address!: Address;
@@ -89,7 +90,7 @@ export class ProductType extends BaseModel {
   ProductId!: number;
   Product!: Product;
   Title = "";
-  Color!: Color;
+  Color!: number;
   ColorId!: number;
   SizeId!: number;
   ModelId!: number;
@@ -99,6 +100,7 @@ export class ProductType extends BaseModel {
   SupplyCount!: number;
   SoldCount!: number;
   MaxAllowedBuy!: number;
+  OptionTypes: OptionType[] = [];
 }
 
 export class Basket extends BaseModel {
@@ -160,8 +162,39 @@ export class Address extends BaseModelStringId {
   Latitude = "";
   Longitude = "";
 }
+export const AllOptionTypes: IdTitle<number>[] = [
+  { Id: 1, Title: "Color" },
+  { Id: 2, Title: "Number" },
+  { Id: 3, Title: "String" }
+];
 
+export class Option extends BaseModelWithTitle {
+  Types: any[] = [];
+  Type: number = 0;
+  EnglishTitle = "";
+  Description: string = "";
+  OptionTypes: OptionType[] = [];
+}
+export class OptionType extends BaseModelWithTitle {
+  OptionId!: number;
+  Value!: object;
+}
+//new EntityConfiguration<Color>("Color", Color, ColorComponent, 'رنگ', defaultStatuses, [
+//  ...defaultPropertyWithTitleConfiguration,
+//  new PropertyConfiguration<Color>(c => c.Value, 'رنگ', { Type: 'color', InPicker: true, InTable: true, Validators: [] }),
+//], { componentType: ComponentTypes.table, icon: 'palette' }),
 
+//new EntityConfiguration<Model>("Model", Model, ModelComponent, 'مدل', defaultStatuses, [
+//  ...defaultPropertyWithTitleConfiguration,
+//], { componentType: ComponentTypes.table, icon: 'city-variant-outline' }),
+
+//new EntityConfiguration<Size>("Size", Size, SizeComponent, 'سایز', defaultStatuses, [
+//  ...defaultPropertyWithTitleConfiguration,
+//], { componentType: ComponentTypes.table, icon: 'city-variant-outline' }),
+
+//new EntityConfiguration<Pattern>("Pattern", Pattern, PatternComponent, 'طرح', defaultStatuses, [
+//  ...defaultPropertyWithTitleConfiguration,
+//], { componentType: ComponentTypes.table, icon: 'city-variant-outline' }),
 
 
 
@@ -184,23 +217,14 @@ export const config: WebSiteConfiguration = new WebSiteConfiguration('DB', 'مد
     new PropertyConfiguration<Brand>(c => c.Images, 'تصاویر', { Type: 'list', InPicker: false, InTable: false, InSearch: false, Validators: [] }),
   ], { componentType: ComponentTypes.table, icon: 'material-design' }),
 
+  new EntityConfiguration<Option>("Option", Option, OptionComponent, 'ویژگی ها', defaultStatuses, [
+    ...defaultPropertyWithTitleConfiguration,
+    new PropertyConfiguration<Option>(c => c.Description, 'توضیحات', { Type: 'string', InPicker: true, InTable: true, Validators: [Validators.required] }),
+    new PropertyConfiguration<Option>(c => c.EnglishTitle, 'تیتر انگلیسی', { Type: 'string', InPicker: true, InTable: true, Validators: [Validators.required] }),
+    new PropertyConfiguration<Option>(c => c.OptionTypes, 'ویژگی ها', { Type: 'list', InPicker: false, InTable: false, Validators: [] }),
+    new PropertyConfiguration<Option>(c => c.Type, 'نوع ویژگی', { canEdit: false, Type: 'fromList', TypeHelper: 'Types', InPicker: true, InTable: true, Validators: [Validators.required] }),
+  ], { componentType: ComponentTypes.table, icon: 'palette', neededPreDefinedValues: { Types: AllOptionTypes } }),
 
-  new EntityConfiguration<Color>("Color", Color, ColorComponent, 'رنگ', defaultStatuses, [
-    ...defaultPropertyWithTitleConfiguration,
-    new PropertyConfiguration<Color>(c => c.Value, 'رنگ', { Type: 'color', InPicker: true, InTable: true, Validators: [] }),
-  ], { componentType: ComponentTypes.table, icon: 'palette' }),
-
-  new EntityConfiguration<Model>("Model", Model, ModelComponent, 'مدل', defaultStatuses, [
-    ...defaultPropertyWithTitleConfiguration,
-  ], { componentType: ComponentTypes.table, icon: 'city-variant-outline' }),
-
-  new EntityConfiguration<Size>("Size", Size, SizeComponent, 'سایز', defaultStatuses, [
-    ...defaultPropertyWithTitleConfiguration,
-  ], { componentType: ComponentTypes.table, icon: 'city-variant-outline' }),
-   
-  new EntityConfiguration<Pattern>("Pattern", Pattern, PatternComponent, 'طرح', defaultStatuses, [
-    ...defaultPropertyWithTitleConfiguration,
-  ], { componentType: ComponentTypes.table, icon: 'city-variant-outline' }),
 
 
   new EntityConfiguration<Keyword>("Keyword", Keyword, KeyWordComponent, 'کلیدواژه', defaultStatuses, [
@@ -212,7 +236,7 @@ export const config: WebSiteConfiguration = new WebSiteConfiguration('DB', 'مد
     new PropertyConfiguration<Label>(c => c.Color, 'رنگ', { Type: 'color', InPicker: true, InTable: true, Validators: [Validators.required] }),
     new PropertyConfiguration<Label>(c => c.Products, 'محصولات', { Type: 'list', InPicker: false, InTable: false, Validators: [] }),
     //new PropertyConfiguration<Label>(c => c.ProductLabels, 'محصولات', { Type: 'list', InPicker: false, InTable: false, Validators: [] }),
-  ], { componentType: ComponentTypes.table, icon: 'tag-multiple-outline' }),
+  ], { componentType: ComponentTypes.table, icon: 'tag-multiple-outline', needToLoadAgainOnOpen: true }),
 
 
 
@@ -221,13 +245,14 @@ export const config: WebSiteConfiguration = new WebSiteConfiguration('DB', 'مد
 
     new PropertyConfiguration<Product>(c => c.CategoryId, 'دسته بندی', { Type: 'fromList', TypeHelper: 'categories', value: null, Validators: [Validators.required], InTable: true, InPicker: true }),
     new PropertyConfiguration<Product>(c => c.Images, 'تصاویر  ', { value: [], Validators: [], InTable: false }),
+    new PropertyConfiguration<Product>(c => c.EnglishTitle, 'نام انگلیسی ', { Type: 'string', Validators: [], InTable: false }),
     new PropertyConfiguration<Product>(c => c.Summary, 'خلاصه ', { Type: 'string', Validators: [], InTable: false }),
     new PropertyConfiguration<Product>(c => c.Description, 'شرح  ', { Type: 'string', Validators: [], InTable: false }),
     new PropertyConfiguration<Product>(c => c.Labels, 'لیبل ها  ', { Type: 'custom', value: [], Validators: [], InTable: false }),
     new PropertyConfiguration<Product>(c => c.Types, 'انواع  ', { Type: 'custom', value: [], Validators: [], InTable: false }),
     new PropertyConfiguration<Product>(c => c.KeyWords, ' کلید واژه ها', { Type: 'custom', value: [], Validators: [], InTable: false }),
     new PropertyConfiguration<Product>(c => c.RelatedFrom, ' محصولات مرتبط', { Type: 'custom', value: [], Validators: [], InTable: false }),
-  ], { componentType: ComponentTypes.lazytable, icon: 'city-variant-outline', needToLoadAgainOnOpen: true, neededData: [Category, Color, Size, Model] }),
+  ], { componentType: ComponentTypes.lazytable, icon: 'city-variant-outline', needToLoadAgainOnOpen: true, neededData: [Category, Option] }),
 
 
 
@@ -238,7 +263,7 @@ export const config: WebSiteConfiguration = new WebSiteConfiguration('DB', 'مد
     new PropertyConfiguration<Customer>(c => c.LastName, 'نام خانوادگی  ', { InPicker: true, Type: 'string', value: '', Validators: [Validators.required] }),
     new PropertyConfiguration<Customer>(c => c.Addresses, 'آدرس  ', { Type: 'list', value: [], Validators: [], InTable: false }),
     new PropertyConfiguration<Customer>(c => c.Password, 'رمز عبور  ', { Type: 'string', value: '', Validators: [Validators.required], InTable: false }),
-    new PropertyConfiguration<Customer>(c => c.PhoneNumber, 'شماره تماس  ', { InPicker:true, Type: 'string', value: '', Validators: [Validators.required] }),
+    new PropertyConfiguration<Customer>(c => c.PhoneNumber, 'شماره تماس  ', { InPicker: true, Type: 'string', value: '', Validators: [Validators.required] }),
     new PropertyConfiguration<Customer>(c => c.PhoneNumberConfirm, 'تایید شماره تماس  ', { Type: 'bool', value: false, Validators: [Validators.required] }),
 
   ], {
@@ -254,22 +279,23 @@ export const config: WebSiteConfiguration = new WebSiteConfiguration('DB', 'مد
       { Value: 10, Color: 'green', Icon: 'check', Title: 'پرداخت شده - ارسال شده' },
       { Value: 11, Color: 'green', Icon: 'check', Title: 'پرداخت شده - تایید اولیه - ارسال برای انبار' },
     ]
-  , [
-    ...defaultPropertyConfiguration,
-    new PropertyConfiguration<Invoice>(c => c.CustomerId, '   شناسه مشتری', { Type: 'number', value: 0, Validators: [Validators.required], canEdit:false, InTable: true, InPicker: true }),
-    new PropertyConfiguration<Invoice>(c => c.Description, 'توضیحات', { Type: 'string', value: '', Validators: [], InTable: false, InPicker: false }),
-    new PropertyConfiguration<Invoice>(c => c.OtherCostsOffs, 'تخفیفات/هزینه ها', { Type: 'list', value: [], Validators: [], InTable: true  }),
-    new PropertyConfiguration<Invoice>(c => c.Price, 'قیمت فاکتور', { Type: 'number',   value: 0, Validators: [], InTable: true  }),
-    new PropertyConfiguration<Invoice>(c => c.ProductTypesForInvoice, 'ویژگی محصولات', { Type: 'list', value: [], Validators: [], InTable: true  }),
-    new PropertyConfiguration<Invoice>(c => c.Customer, 'مشتری', { Type: 'object', value: {}, Validators: [], InTable: false,   InForm: true, InExport: false, InSearch: false }),
-    new PropertyConfiguration<Invoice>(c => c.Address, 'آدرس', { Type: 'object', value: {}, Validators: [], InTable: false,   InForm: true, InExport: false, InSearch: false }),
-  ], {
-    componentType: ComponentTypes.lazytable, icon: 'city-variant-outline', getTitle: (item: FormGroup) => {return( item.controls['Id'].value ? item.controls['Id'].value.toString():  "___"); }}),
+    , [
+      ...defaultPropertyConfiguration,
+      new PropertyConfiguration<Invoice>(c => c.CustomerId, '   شناسه مشتری', { Type: 'number', value: 0, Validators: [Validators.required], canEdit: false, InTable: true, InPicker: true }),
+      new PropertyConfiguration<Invoice>(c => c.Description, 'توضیحات', { Type: 'string', value: '', Validators: [], InTable: false, InPicker: false }),
+      new PropertyConfiguration<Invoice>(c => c.OtherCostsOffs, 'تخفیفات/هزینه ها', { Type: 'list', value: [], Validators: [], InTable: true }),
+      new PropertyConfiguration<Invoice>(c => c.Price, 'قیمت فاکتور', { Type: 'number', value: 0, Validators: [], InTable: true }),
+      new PropertyConfiguration<Invoice>(c => c.ProductTypesForInvoice, 'ویژگی محصولات', { Type: 'list', value: [], Validators: [], InTable: true }),
+      new PropertyConfiguration<Invoice>(c => c.Customer, 'مشتری', { Type: 'object', value: {}, Validators: [], InTable: false, InForm: true, InExport: false, InSearch: false }),
+      new PropertyConfiguration<Invoice>(c => c.Address, 'آدرس', { Type: 'object', value: {}, Validators: [], InTable: false, InForm: true, InExport: false, InSearch: false }),
+    ], {
+    componentType: ComponentTypes.lazytable, icon: 'city-variant-outline', getTitle: (item: FormGroup) => { return (item.controls['Id'].value ? item.controls['Id'].value.toString() : "___"); }
+  }),
 
 
- 
 
-  new EntityConfiguration<Province>("Province", Province, ProvinceComponent, 'استان', defaultStatuses , [
+
+  new EntityConfiguration<Province>("Province", Province, ProvinceComponent, 'استان', defaultStatuses, [
     ...defaultPropertyWithTitleConfiguration,
   ], { componentType: ComponentTypes.table, icon: 'city-variant-outline' }),
 
@@ -282,15 +308,16 @@ export const config: WebSiteConfiguration = new WebSiteConfiguration('DB', 'مد
 
 @NgModule({
   declarations: [
-    CityComponent, BrandComponent, CategoryComponent, ColorComponent, KeyWordComponent, ProvinceComponent, LabelComponent,
-    ProductComponent, ModelComponent, SizeComponent, CustomerComponent, InvoiceComponent, PatternComponent,
+    CityComponent, BrandComponent, CategoryComponent, KeyWordComponent, ProvinceComponent, LabelComponent,
+    ProductComponent, CustomerComponent, InvoiceComponent, OptionComponent,
   ],
   imports: [
     TemplateModule,
     //CKEditorModule,
     RouterModule.forChild(buildPathFromConfig(config)),
     AngularEditorModule
-  ]})
+  ]
+})
 export class BackModule {
   constructor(wss: WebSiteService) {
     wss.websites.push(config);

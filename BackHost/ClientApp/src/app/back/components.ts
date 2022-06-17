@@ -3,7 +3,7 @@ import { BaseComponent } from '../../../../../../Santel/ClientApp/src/app/templa
 import { NzFormatEmitEvent, NzTreeComponent, NzTreeNodeOptions } from 'ng-zorro-antd/tree';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { getNameOf, HTTPTypes, JM, MakeId, numberToText, NZNotificationTypes, RequestPlus, toTreeHelper, ValueTitle } from '../../../../../../Santel/ClientApp/src/app/services/utils';
-import { Address, Brand, Category, City, Color, Customer, Image, Invoice, Keyword, Label, Model, Pattern, Product, Province, Size } from './back.module';
+import { Address, AllOptionTypes, Brand, Category, City, Customer, Image, Invoice, Keyword, Label, Option, OptionType, Product, Province } from './back.module';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 
@@ -57,45 +57,39 @@ export class CustomerComponent extends BaseComponent<Customer> {
   }
 }
 
+
+
+
+
 @Component({
-  selector: 'app-color',
-  templateUrl: './color.component.html',
+  selector: 'app-option',
+  templateUrl: './option.component.html',
   styles: [
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ColorComponent extends BaseComponent<Color> { }
+export class OptionComponent extends BaseComponent<Option> {
+  override validationCheck() {
+    let x = super.validationCheck();
+    if (!x) return false;
+    if ((this.selectedForm().form.controls['OptionTypes'].value as OptionType[]).some(c => !c.Value || !c.Title || c.Title == "")) {
+      this.http.createNotification(NZNotificationTypes.error, "خطا", "نام و مقدار ویژگی  نمیتواند خالی باشد");
+      return false;
+    }
+    return true;
+  }
+  //add(item: FormGroup) {
+  //  let x: OptionType[] = item.controls['OptionTypes'].value;
+  //  x = x ? x : [];
+  //  //if (item.controls['Type'].value == AllOptionTypes.find(d => d.Title == "Number")) {
+  //  //}
 
-
-@Component({
-  selector: 'app-pattern',
-  templateUrl: './pattern.component.html',
-  styles: [
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
-})
-export class PatternComponent extends BaseComponent<Pattern> { }
-
-
-@Component({
-  selector: 'app-model',
-  templateUrl: './model.component.html',
-  styles: [
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
-})
-export class ModelComponent extends BaseComponent<Model> {
+  //  this.selectedForm().form.controls['OptionTypes'].setValue(x);
+  //  this.makeItDirty(this.selectedForm().form);
+  //}
 }
 
-@Component({
-  selector: 'app-size',
-  templateUrl: './size.component.html',
-  styles: [
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
-})
-export class SizeComponent extends BaseComponent<Size> {
-}
+
 
 
 
@@ -185,7 +179,7 @@ export class KeyWordComponent extends BaseComponent<Keyword> {
   styles: [
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
-}) 
+})
 export class ProductComponent extends BaseComponent<Product> {
   editorConfig: AngularEditorConfig = {
     editable: true,
@@ -223,6 +217,7 @@ export class ProductComponent extends BaseComponent<Product> {
   productModal = false;
   keywordModal = false;
   docId = 0;
+
   addKeyword(e: Keyword) {
     let x: Keyword[] = this.selectedForm().form.controls['KeyWords'].value;
     x = x ? x : [];
@@ -272,15 +267,53 @@ export class ProductComponent extends BaseComponent<Product> {
       c.CategoryTitle = this.listCache.categories.find((d: any) => d.Id == c.CategoryId)?.Title;
     })
   }
+  istrue() {
+
+  }
   override async fill() {
     this.listCache.categories = this.dataManager.getLoadedData(Category);
     this.listCache.categoriesAsTree = toTreeHelper(this.listCache.categories, 'Id', 'ParentCategoryId', null);
-    this.listCache.colors = this.dataManager.getLoadedData(Color);
-    this.listCache.models = this.dataManager.getLoadedData(Model);
-    this.listCache.sizes = this.dataManager.getLoadedData(Size);
-    this.listCache.patterns = this.dataManager.getLoadedData(Pattern);
+    this.listCache.options = this.dataManager.getLoadedData(Option);
+    //this.listCache.colors = this.dataManager.getLoadedData(Color);
+    //this.listCache.models = this.dataManager.getLoadedData(Model);
+    //this.listCache.sizes = this.dataManager.getLoadedData(Size);
+    //this.listCache.patterns = this.dataManager.getLoadedData(Pattern);
   }
 }
 
 
 
+//@Component({
+//  selector: 'app-model',
+//  templateUrl: './model.component.html',
+//  styles: [
+//  ],
+//  changeDetection: ChangeDetectionStrategy.OnPush
+//})
+//export class ModelComponent extends BaseComponent<Model> {
+//}
+//@Component({
+//  selector: 'app-pattern',
+//  templateUrl: './pattern.component.html',
+//  styles: [
+//  ],
+//  changeDetection: ChangeDetectionStrategy.OnPush
+//})
+//export class PatternComponent extends BaseComponent<Pattern> { }
+//@Component({
+//  selector: 'app-size',
+//  templateUrl: './size.component.html',
+//  styles: [
+//  ],
+//  changeDetection: ChangeDetectionStrategy.OnPush
+//})
+//export class SizeComponent extends BaseComponent<Size> {
+//}
+//@Component({
+//  selector: 'app-color',
+//  templateUrl: './color.component.html',
+//  styles: [
+//  ],
+//  changeDetection: ChangeDetectionStrategy.OnPush
+//})
+//export class ColorComponent extends BaseComponent<Color> { }

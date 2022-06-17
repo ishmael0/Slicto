@@ -29,7 +29,14 @@
               </nz-form-control>
             </nz-form-item>
           </div>
-
+          <nz-form-label [nzXs]="24" [nzSm]="6" [nzMd]="3">  نام انگلیسی</nz-form-label>
+          <div nz-col [nzXs]="24" [nzSm]="18" [nzMd]="9">
+            <nz-form-item>
+              <nz-form-control>
+                <input nz-input formControlName="EnglishTitle" nzPlaceHolder="لطفا نام انگلیسی را وارد نمایید" />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
           <nz-form-label [nzXs]="24" [nzSm]="6" [nzMd]="3">  توضیحات  </nz-form-label>
           <div nz-col [nzXs]="24" [nzSm]="18" [nzMd]="21">
             <angular-editor [placeholder]="'توضیحات'" [config]="editorConfig" formControlName="Description"></angular-editor>
@@ -51,6 +58,7 @@
 
           <ng-template #header>
             <th>ردیف</th>
+            <th>شناسه</th>
             <th> نام/توضیحات  </th>
             <th>
               رنگ/اندازه/مدل
@@ -66,7 +74,8 @@
             </th>
           </ng-template>
           <ng-template #body let-c="item" let-index="index">
-            <td>{{index + 1}}</td>
+            <td>{{c.Id}}</td>
+            <td>{{c.Id}}</td>
 
             <td>
               <input [(ngModel)]="c.Title" nz-input (change)="makeItDirty(item)" placeholder="نام" [ngModelOptions]="{standalone: true}" />
@@ -74,21 +83,28 @@
             </td>
             <td>
 
-              <nz-select [(ngModel)]="c.ColorId" nzAllowClear nzPlaceHolder="رنگ" [ngModelOptions]="{standalone: true}">
+              <div *ngFor="let i of listCache.options">
+                {{i.Title}}:
+                <nz-select nzAllowClear nzPlaceHolder=""  [ngModelOptions]="{standalone: true}" [(ngModel)]="c.ColorId">
+                  <nz-option *ngFor="let ii of i.OptionTypes" [nzValue]="ii.Id" [nzLabel]="ii.Title"></nz-option>
+                </nz-select>
+              </div>
+
+              <!--<nz-select [(ngModel)]="c.ColorId" nzAllowClear nzPlaceHolder="رنگ" (change)="makeItDirty(item)" [ngModelOptions]="{standalone: true}">
                 <nz-option *ngFor="let i of listCache.colors" [nzValue]="i.Id" [nzLabel]="i.Title"></nz-option>
               </nz-select>
 
-              <nz-select [(ngModel)]="c.SizeId" nzAllowClear nzPlaceHolder="اندازه" [ngModelOptions]="{standalone: true}">
+              <nz-select [(ngModel)]="c.SizeId" nzAllowClear nzPlaceHolder="اندازه" (change)="makeItDirty(item)" [ngModelOptions]="{standalone: true}">
                 <nz-option *ngFor="let i of listCache.sizes" [nzValue]="i.Id" [nzLabel]="i.Title"></nz-option>
               </nz-select>
 
-              <nz-select [(ngModel)]="c.ModelId" nzAllowClear nzPlaceHolder="مدل" [ngModelOptions]="{standalone: true}">
+              <nz-select [(ngModel)]="c.ModelId" nzAllowClear nzPlaceHolder="مدل" (change)="makeItDirty(item)" [ngModelOptions]="{standalone: true}">
                 <nz-option *ngFor="let i of listCache.models" [nzValue]="i.Id" [nzLabel]="i.Title"></nz-option>
               </nz-select>
 
-              <nz-select [(ngModel)]="c.PatternId" nzAllowClear nzPlaceHolder="طرح" [ngModelOptions]="{standalone: true}">
+              <nz-select [(ngModel)]="c.PatternId" nzAllowClear nzPlaceHolder="طرح" (change)="makeItDirty(item)" [ngModelOptions]="{standalone: true}">
                 <nz-option *ngFor="let i of listCache.patterns" [nzValue]="i.Id" [nzLabel]="i.Title"></nz-option>
-              </nz-select>
+              </nz-select>-->
 
             </td>
             <td>
@@ -124,7 +140,7 @@
           <ng-template #body2 let-subitem="item" let-index="index">
             <td>{{index + 1}}</td>
             <td style="font-weight:bold">
-              <input type="text" nz-input [ngModelOptions]="{standalone: true}" [(ngModel)]="subitem.Description" />
+              <input type="text" nz-input [ngModelOptions]="{standalone: true}" (change)="makeItDirty(item)" [(ngModel)]="subitem.Description" />
             </td>
             <td>
               <img [src]="'front/'+subitem.Path" style="width:100px" />
@@ -276,12 +292,12 @@
   <nz-modal [(nzVisible)]="labelsModal" [nzFooter]="mainTemplate.modalEmptyFooter" nzTitle="افزودن لیبل" (nzOnCancel)="labelsModal = false">
     <ng-container *nzModalContent>
       <app-label (select)="addLabel($event)"> </app-label>
-     </ng-container>
+    </ng-container>
   </nz-modal>
 
   <nz-modal [(nzVisible)]="productModal" [nzFooter]="mainTemplate.modalEmptyFooter" nzTitle="افزودن محصول مرتبط" (nzOnCancel)="productModal = false">
     <ng-container *nzModalContent>
       <app-product (select)="addProduct($event)"> </app-product>
-     </ng-container>
+    </ng-container>
   </nz-modal>
 </ng-container>

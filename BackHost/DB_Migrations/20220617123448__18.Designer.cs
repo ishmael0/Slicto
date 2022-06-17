@@ -4,6 +4,7 @@ using BackHost.DBs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackHost.DB_Migrations
 {
     [DbContext(typeof(DB))]
-    partial class DBModelSnapshot : ModelSnapshot
+    [Migration("20220617123448__18")]
+    partial class _18
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -386,41 +388,13 @@ namespace BackHost.DB_Migrations
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
-
-                    b.ToTable("Options");
-                });
-
-            modelBuilder.Entity("BackHost.DBs.OptionType", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
-                    b.Property<DateTime?>("Create")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long>("OptionId")
-                        .HasColumnType("bigint");
-
-                    b.Property<short>("Status")
-                        .HasColumnType("smallint");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Value")
+                    b.Property<string>("Types")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OptionId");
-
-                    b.ToTable("OptionTypes");
+                    b.ToTable("OptionS");
                 });
 
             modelBuilder.Entity("BackHost.DBs.Pattern", b =>
@@ -603,21 +577,6 @@ namespace BackHost.DB_Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("ProductTypes");
-                });
-
-            modelBuilder.Entity("BackHost.DBs.ProductTypeOptionType", b =>
-                {
-                    b.Property<long>("OptionTypeId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("ProductTypeId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("OptionTypeId", "ProductTypeId");
-
-                    b.HasIndex("ProductTypeId");
-
-                    b.ToTable("ProductTypeOptionTypes");
                 });
 
             modelBuilder.Entity("BackHost.DBs.Province", b =>
@@ -852,17 +811,6 @@ namespace BackHost.DB_Migrations
                     b.Navigation("Customer");
                 });
 
-            modelBuilder.Entity("BackHost.DBs.OptionType", b =>
-                {
-                    b.HasOne("BackHost.DBs.Option", "Option")
-                        .WithMany("OptionTypes")
-                        .HasForeignKey("OptionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Option");
-                });
-
             modelBuilder.Entity("BackHost.DBs.Product", b =>
                 {
                     b.HasOne("BackHost.DBs.Category", "Category")
@@ -942,25 +890,6 @@ namespace BackHost.DB_Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("BackHost.DBs.ProductTypeOptionType", b =>
-                {
-                    b.HasOne("BackHost.DBs.OptionType", "OptionType")
-                        .WithMany("ProductTypeOptionTypes")
-                        .HasForeignKey("OptionTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BackHost.DBs.ProductType", "ProductType")
-                        .WithMany("ProductTypeOptionTypes")
-                        .HasForeignKey("ProductTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("OptionType");
-
-                    b.Navigation("ProductType");
-                });
-
             modelBuilder.Entity("BackHost.DBs.Customer", b =>
                 {
                     b.Navigation("Invoices");
@@ -976,16 +905,6 @@ namespace BackHost.DB_Migrations
                     b.Navigation("ProductLabels");
                 });
 
-            modelBuilder.Entity("BackHost.DBs.Option", b =>
-                {
-                    b.Navigation("OptionTypes");
-                });
-
-            modelBuilder.Entity("BackHost.DBs.OptionType", b =>
-                {
-                    b.Navigation("ProductTypeOptionTypes");
-                });
-
             modelBuilder.Entity("BackHost.DBs.Product", b =>
                 {
                     b.Navigation("ProductKeyWords");
@@ -997,11 +916,6 @@ namespace BackHost.DB_Migrations
                     b.Navigation("ProductProductTo");
 
                     b.Navigation("Types");
-                });
-
-            modelBuilder.Entity("BackHost.DBs.ProductType", b =>
-                {
-                    b.Navigation("ProductTypeOptionTypes");
                 });
 #pragma warning restore 612, 618
         }

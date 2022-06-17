@@ -4,6 +4,7 @@ using BackHost.DBs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackHost.DB_Migrations
 {
     [DbContext(typeof(DB))]
-    partial class DBModelSnapshot : ModelSnapshot
+    [Migration("20220617132915__19")]
+    partial class _19
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -605,21 +607,6 @@ namespace BackHost.DB_Migrations
                     b.ToTable("ProductTypes");
                 });
 
-            modelBuilder.Entity("BackHost.DBs.ProductTypeOptionType", b =>
-                {
-                    b.Property<long>("OptionTypeId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("ProductTypeId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("OptionTypeId", "ProductTypeId");
-
-                    b.HasIndex("ProductTypeId");
-
-                    b.ToTable("ProductTypeOptionTypes");
-                });
-
             modelBuilder.Entity("BackHost.DBs.Province", b =>
                 {
                     b.Property<long>("Id")
@@ -942,25 +929,6 @@ namespace BackHost.DB_Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("BackHost.DBs.ProductTypeOptionType", b =>
-                {
-                    b.HasOne("BackHost.DBs.OptionType", "OptionType")
-                        .WithMany("ProductTypeOptionTypes")
-                        .HasForeignKey("OptionTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BackHost.DBs.ProductType", "ProductType")
-                        .WithMany("ProductTypeOptionTypes")
-                        .HasForeignKey("ProductTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("OptionType");
-
-                    b.Navigation("ProductType");
-                });
-
             modelBuilder.Entity("BackHost.DBs.Customer", b =>
                 {
                     b.Navigation("Invoices");
@@ -981,11 +949,6 @@ namespace BackHost.DB_Migrations
                     b.Navigation("OptionTypes");
                 });
 
-            modelBuilder.Entity("BackHost.DBs.OptionType", b =>
-                {
-                    b.Navigation("ProductTypeOptionTypes");
-                });
-
             modelBuilder.Entity("BackHost.DBs.Product", b =>
                 {
                     b.Navigation("ProductKeyWords");
@@ -997,11 +960,6 @@ namespace BackHost.DB_Migrations
                     b.Navigation("ProductProductTo");
 
                     b.Navigation("Types");
-                });
-
-            modelBuilder.Entity("BackHost.DBs.ProductType", b =>
-                {
-                    b.Navigation("ProductTypeOptionTypes");
                 });
 #pragma warning restore 612, 618
         }
