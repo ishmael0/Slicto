@@ -72,47 +72,66 @@ namespace BackHost.DBs
         public ProductController(DB dbContext, UserPermissionManager upm, IOptions<AppSettingPrivates> options) : base(dbContext, upm, options)
         {
         }
-        [NonAction]
-        public override void SetUpdate(Product t)
+        [AuthorizeAttributeWithPermmisionRefreshToken]
+        [HttpPost]
+        public override async Task<JR<JM<Product>>> Set([FromQuery] IDictionary<string, string> param, [FromBody] Product t)
         {
-            t.Types.ToList().ForEach(c => { c.ProductId = t.Id; });
-            Extentions.AddUpdateDeleteChild(
-                _context,
-                _context.ProductTypes.Where(c => c.ProductId == t.Id).ToList(),
-                t.Types,
-                (t1, t2) => t1.Id == t2.Id);
-            t.Types = null;
+            if (t == null)
+                return JR<JM<Product>>.FailureBadRequest();
+            if (t.Id != 0 && HasAccessToId(upm, t.Id) != true)
+                return JR<JM<Product>>.FailureForbidden();
+            BeforeSet(t);
+            if (t.Id == 0)
+            {
+                t.Create = DateTime.Now;
+                SetAdd(t);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                var tr = await _context.Database.BeginTransactionAsync();
+                try
+                {
+                    var alloptions = t.Types.Select(c => new { c.Id, ops = c.OptionTypes.ToList() }).ToList();
+                    t.Types.ToList().ForEach(c => c.OptionTypes = null);
+                    t.Types.ToList().ForEach(c => { c.ProductId = t.Id; });
+                    Extentions.AddUpdateDeleteChild(_context, _context.ProductTypes.Where(c => c.ProductId == t.Id).ToList(), t.Types, (t1, t2) => t1.Id == t2.Id);
+                    t.Types = null;
 
-            Extentions.AddUpdateDeleteChild(
-    _context,
-    _context.ProductKeywords.Where(c => c.ProductId == t.Id).ToList(),
-    t.KeyWords.Select((c, i) => new ProductKeyword { KeywordId = c.Id, ProductId = t.Id }).ToList(),
-    (t1, t2) => t1.KeywordId == t2.KeywordId);
-            t.KeyWords = null;
-
-
-            Extentions.AddUpdateDeleteChild(
-_context,
-_context.ProductLabels.Where(c => c.ProductId == t.Id).ToList(),
-t.Labels.Select((c, i) => new ProductLabel { LabelId = c.Id, ProductId = t.Id }).ToList(),
-(t1, t2) => t1.LabelId == t2.LabelId);
-            t.Labels = null;
-
-
-            Extentions.AddUpdateDeleteChild(
-_context,
-_context.ProductProducts.Where(c => c.FromId == t.Id).ToList(),
-t.RelatedFrom.Select((c, i) => new ProductProduct { ToId = c.Id, FromId = t.Id }).ToList(),
-(t1, t2) => t1.ToId == t2.ToId);
-            t.RelatedFrom = null;
+                    Extentions.AddUpdateDeleteChild(_context, _context.ProductKeywords.Where(c => c.ProductId == t.Id).ToList(), t.KeyWords.Select((c, i) => new ProductKeyword { KeywordId = c.Id, ProductId = t.Id }).ToList(), (t1, t2) => t1.KeywordId == t2.KeywordId);
+                    t.KeyWords = null;
 
 
-            base.SetUpdate(t);
+                    Extentions.AddUpdateDeleteChild(_context, _context.ProductLabels.Where(c => c.ProductId == t.Id).ToList(), t.Labels.Select((c, i) => new ProductLabel { LabelId = c.Id, ProductId = t.Id }).ToList(), (t1, t2) => t1.LabelId == t2.LabelId);
+                    t.Labels = null;
+
+
+                    Extentions.AddUpdateDeleteChild(_context, _context.ProductProducts.Where(c => c.FromId == t.Id).ToList(), t.RelatedFrom.Select((c, i) => new ProductProduct { ToId = c.Id, FromId = t.Id }).ToList(), (t1, t2) => t1.ToId == t2.ToId);
+                    t.RelatedFrom = null;
+                    await _context.SaveChangesAsync();
+                    foreach (var item in alloptions)
+                    {
+                        Extentions.AddUpdateDeleteChild(_context,
+                            _context.ProductTypeOptionTypes.Where(c => c.ProductTypeId == item.Id).ToList(),
+                            item.ops.Select((c, i) => new ProductTypeOptionType { ProductTypeId = item.Id, OptionTypeId = c.Id }).ToList(),
+                            (t1, t2) => t1.OptionTypeId == t2.OptionTypeId);
+                    }
+                    await _context.SaveChangesAsync();
+                    await tr.CommitAsync();
+                }
+                catch (Exception)
+                {
+                    await tr.RollbackAsync();
+                }
+            }
+
+            return await GetHandler(param, t);
         }
+
         public override async Task<JR<Product>> GetSingle([FromQuery] int id)
         {
             var data = await ts
-                .Include(c => c.Types).ThenInclude(c=>c.OptionTypes)
+                .Include(c => c.Types).ThenInclude(c => c.OptionTypes)
                 .Include(c => c.KeyWords)
                 .Include(c => c.Labels)
                 .Include(c => c.RelatedFrom)

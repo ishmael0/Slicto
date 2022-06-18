@@ -177,7 +177,7 @@ export class Option extends BaseModelWithTitle {
 }
 export class OptionType extends BaseModelWithTitle {
   OptionId!: number;
-  Value!: object;
+  Value!: any;
 }
 //new EntityConfiguration<Color>("Color", Color, ColorComponent, 'رنگ', defaultStatuses, [
 //  ...defaultPropertyWithTitleConfiguration,

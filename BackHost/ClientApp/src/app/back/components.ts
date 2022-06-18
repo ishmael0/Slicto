@@ -3,7 +3,7 @@ import { BaseComponent } from '../../../../../../Santel/ClientApp/src/app/templa
 import { NzFormatEmitEvent, NzTreeComponent, NzTreeNodeOptions } from 'ng-zorro-antd/tree';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { getNameOf, HTTPTypes, JM, MakeId, numberToText, NZNotificationTypes, RequestPlus, toTreeHelper, ValueTitle } from '../../../../../../Santel/ClientApp/src/app/services/utils';
-import { Address, AllOptionTypes, Brand, Category, City, Customer, Image, Invoice, Keyword, Label, Option, OptionType, Product, Province } from './back.module';
+import { Address, AllOptionTypes, Brand, Category, City, Customer, Image, Invoice, Keyword, Label, Option, OptionType, Product, ProductType, Province } from './back.module';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 
@@ -126,7 +126,7 @@ export class CityComponent extends BaseComponent<City> {
 export class InvoiceComponent extends BaseComponent<Invoice> {
   customerModal = false;
   addCustomer(e: any) {
-    this.selectedForm().form.controls['CustomerId'].setValue(e.Id);
+    this.selectedForm().form.controls['CustomerId'].setValue(e.Id);  
     this.selectedForm().form.controls['Customer'].setValue(e);
     this.customerModal = false;
     this.makeItDirty(this.selectedForm().form);
@@ -261,14 +261,26 @@ export class ProductComponent extends BaseComponent<Product> {
     }
     return true;
   }
+  setSelected(item: FormGroup, pt: ProductType, id: number, value: any) {
+    let x = pt.OptionTypes.find(c => c.OptionId == id);
+    if (x) {
+      x.OptionId = value;
+    }
+    else {
+      pt.OptionTypes.push({ Id: value, OptionId: id, Value: 0, Title: '', Create: '', Status: 0 });
+    }
+    this.makeItDirty(item)
+  }
+  getSelected(pt: ProductType, id: number) {
+    let x = pt.OptionTypes.find(c => c.OptionId == id)
+    if (x) return x.Id;
+    return null;
+  }
   override async onGet(m: string[], d: JM<Product>) {
     super.onGet(m, d)
     this.dataManager.ViewRecords.forEach(c => {
       c.CategoryTitle = this.listCache.categories.find((d: any) => d.Id == c.CategoryId)?.Title;
     })
-  }
-  istrue() {
-
   }
   override async fill() {
     this.listCache.categories = this.dataManager.getLoadedData(Category);

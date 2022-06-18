@@ -85,7 +85,7 @@
 
               <div *ngFor="let i of listCache.options">
                 {{i.Title}}:
-                <nz-select nzAllowClear nzPlaceHolder=""  [ngModelOptions]="{standalone: true}" [(ngModel)]="c.ColorId">
+                <nz-select nzAllowClear nzPlaceHolder="" (ngModelChange)="setSelected(item, c, i.Id, $event)" [ngModelOptions]="{standalone: true}" [ngModel]="getSelected(c, i.Id)">
                   <nz-option *ngFor="let ii of i.OptionTypes" [nzValue]="ii.Id" [nzLabel]="ii.Title"></nz-option>
                 </nz-select>
               </div>
